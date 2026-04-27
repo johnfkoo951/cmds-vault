@@ -1,0 +1,14 @@
+vaultSlug: cmds-vault
+selectedSpaceSlug: gobi
+orchestratorEnabled: false
+
+# Voice settings — uncomment and configure if using Gobi Desktop voice mode
+# voiceSettings:
+#   primaryLanguage: en
+#   secondaryLanguage: ko
+#   micGain: 0.2
+#   systemPromptFile: "90. Settings/gobi/Prompts/Real-time Voice Assistant (RVA).md"
+#   llmProvider: claude-cli
+#   llmConfig:
+#     cli:
+#       claudePath: /Users/<you>/.local/bin/claude

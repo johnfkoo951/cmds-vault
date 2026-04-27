@@ -1,0 +1,22 @@
+# Obsidian per-user state
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# Gobi runtime state (must not be committed)
+.gobi/sync.db
+.gobi/sync.db-journal
+.gobi/sync_state.json
+
+# OS / editor noise
+.DS_Store
+.vscode/
+*.swp
+*~
+
+# cmds-system-files origin (leftover from upstream repo)
+.vercel
+.env*.local
+
+# History/log scratch
+_Settings_/History/
+_Settings_/Logs/
