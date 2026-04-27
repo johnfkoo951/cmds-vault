@@ -27,18 +27,27 @@ Open `~/Documents/cmds-vault` in Obsidian via **Open folder as vault**.
 - Edit `BRAIN.md` — fill in your name, interests, pinned notes.
 - Edit `BRAIN_PROMPT.md` — set the voice your Brain uses when answering chat sessions on Gobi Space.
 
-### 3. Connect Gobi (optional but recommended)
+### 3. Connect Gobi
 
-Install [Gobi Desktop](https://gobi.app), sign in, and add this vault as a Brain:
+Install [Gobi Desktop](https://gobi.app) (or just the [CLI](https://github.com/gobi-ai/cli)), then run the three setup commands **in order**:
 
 ```bash
-gobi vault add ~/Documents/cmds-vault
-gobi sync
+cd ~/Documents/cmds-vault
+
+gobi init           # log in, create or pick a vault → writes vaultSlug
+gobi space warp     # pick which Gobi space to publish to → writes selectedSpaceSlug
+gobi sync           # first upload of BRAIN.{md,jpg}, BRAIN_PROMPT.md, app/home.html
 ```
 
-`.gobi/syncfiles` controls what gets pushed to Gobi Space (default: `BRAIN.{md,jpg}`, `BRAIN_PROMPT.md`, `app/home.html`). `.gobi/settings.yaml` carries the `vaultSlug` and chat configuration — adjust as needed.
+The shipped `.gobi/settings.yaml` is intentionally a **stub** — `gobi init` will fill in `vaultSlug` (auto-generated like `brave-path-zr962w`) and `gobi space warp` fills in `selectedSpaceSlug`. Don't hand-edit those values.
 
-To customize the homepage that Gobi Space renders for visitors, run the **Create Brain Homepage (CBH)** prompt at `90. Settings/gobi/Prompts/Create Brain Homepage (CBH).md` from Claude Code.
+After `gobi sync`, your Brain page appears at `https://gobispace.com/@<your-vault-slug>`.
+
+For the full first-run flow with troubleshooting and resume logic, follow the **Gobi Onboarding** skill at:
+- `90. Settings/gobi/Skills/gobi-onboarding/SKILL.md`
+
+To customize what visitors see on your Brain page, run the **Create Brain Homepage (CBH)** prompt at:
+- `90. Settings/gobi/Prompts/Create Brain Homepage (CBH).md`
 
 ### 4. Start writing
 
@@ -69,7 +78,9 @@ cmds-vault/
 ├── 90. Settings/
 │   ├── 94. Agent Settings/claude/{agents,commands,rules,skills}/   # cmds Agent Settings (symlink-ready)
 │   └── gobi/                                                       # Gobi-specific tooling
-│       ├── Skills/gobi-cli/                                        # Gobi CLI skill (sync, space, brain, session)
+│       ├── Skills/
+│       │   ├── gobi-cli/                                           # Gobi CLI skill (sync, space, brain, session)
+│       │   └── gobi-onboarding/                                    # First-run setup walkthrough
 │       └── Prompts/Create Brain Homepage (CBH).md                  # Customize app/home.html
 │
 ├── BRAIN.md, BRAIN.jpg, BRAIN_PROMPT.md              # Gobi Brain identity
@@ -83,9 +94,11 @@ Kept deliberately minimal for class use. The following are **not** copied from t
 
 - `orchestrator.yaml` and the 22 ai4pkm prompts (EIC, GDR, TIU, ARP, …) — these are ai4pkm-specific automation; out of scope here
 - ai4pkm community workflows (GSA, CPU, CUP, ACQ, ANQ, CUS) — relevant only inside ai4pkm's Gobi space, not class
-- `gobi-onboarding`, `gobi-migration` skills — first-time setup or legacy migration, not needed for new student vaults
+- `gobi-migration` skill — legacy ai4pkm-vault migration tool, not needed for new student vaults
 
 If you want any of these later, copy them from [ai4pkm-vault](https://github.com/jykim/ai4pkm-vault) by hand.
+
+> Note: `gobi-onboarding` IS included (under `90. Settings/gobi/Skills/gobi-onboarding/`) but it's a **streamlined class version** of ai4pkm's, not a copy. Voice mode is optional, no BBF/BBG profile-extraction games, anchored to CMDS folder taxonomy and Connect→Merge→Develop→Share vocabulary.
 
 ## Symlink the .claude/ folder (advanced, optional)
 
