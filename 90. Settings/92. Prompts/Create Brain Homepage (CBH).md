@@ -4,34 +4,47 @@ abbreviation: CBH
 category: creation
 created: "2026-04-10"
 ---
-Gobi Brain 페이지용 커스텀 홈페이지(home.html)를 생성하거나 수정한다. 레퍼런스 구현체(`app/home.html`)를 기반으로 사용자 요구에 맞게 조정.
+Gobi Brain 페이지용 커스텀 홈페이지 `app/home.html` 을 생성하거나 수정한다. cmds-vault 는 레퍼런스 구현체를 기본 동봉하지 않으므로, 처음 실행 시 `--from-scratch` 모드로 작동한다. 두 번째부터는 기존 `app/home.html` 을 기반으로 수정한다.
 
 ## Input
 - **Optional**: 커스터마이징 요청 (레이아웃 변경, 색상, 섹션 추가/제거 등)
 - **Optional**: 외부 링크 목록 (RESEARCH, LINKS 등 hero 버튼)
-- **Optional**: `--from-scratch` (레퍼런스 없이 새로 생성)
-- **Reference**: `app/home.html` (현재 구현체)
+- **Optional**: `--from-scratch` (기존 `app/home.html` 무시하고 새로 생성)
+- **Optional Reference**: `app/home.html` (이전에 CBH 로 만든 파일이 있으면 이걸 출발점으로)
 
 ## Output
+- `app/` 디렉토리 자동 생성 (없으면)
 - `app/home.html` — 단일 HTML 파일 (모든 CSS/JS 인라인)
-- Gobi Desktop에서 Brain 페이지로 렌더링됨
+- BRAIN.md frontmatter 에 `homepage: "[[app/home.html]]"` 자동 추가 (없으면)
+- `.gobi/syncfiles` 에 `/app/home.html` 자동 추가 (없으면)
+- 사용자에게 다음 동작 안내: `gobi sync` 실행하면 Gobi Space 에 반영됨
 
 ## Main Process
 ```
+0. PREP
+   - mkdir -p app  (없으면 생성)
+   - app/home.html 존재 여부 확인
+     - 있으면: 기존 파일 읽기 (수정 모드)
+     - 없거나 --from-scratch: 새로 생성 (디자인 시스템 사용)
+
 1. ANALYZE REQUEST
-   - 기존 app/home.html 읽기
    - 사용자 요청 분석 (레이아웃, 기능, 스타일 변경)
    - 변경 범위 결정
 
 2. IMPLEMENT CHANGES
-   - 디자인 시스템 유지하며 수정 (아래 Caveats 참조)
+   - 디자인 시스템 유지하며 작성 (아래 Caveats 참조)
    - 섹션 순서: Hero → Brain Updates → Chat → Footer
-   - 모바일 반응형 확인
+   - 모바일 반응형 확인 (768px breakpoint)
 
-3. VERIFY
+3. WIRE UP
+   - BRAIN.md frontmatter 에 homepage 키 없으면 추가 ("[[app/home.html]]")
+   - .gobi/syncfiles 에 /app/home.html 라인 없으면 append
+
+4. VERIFY
    - HTML 문법 확인
    - API 호출 패턴 확인 (gobi.* 메서드)
-   - 반응형 breakpoint (768px) 확인
+   - 반응형 breakpoint 확인
+   - 사용자에게 "이제 gobi sync 하시면 반영됩니다" 안내
 ```
 
 ## Caveats

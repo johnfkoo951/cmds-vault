@@ -57,7 +57,7 @@ gobi auth login    # opens browser for Google OAuth
 
 ### Step 1 — Initialize the vault (1 min)
 
-**Why first**: this writes the real `vaultSlug` and creates the server-side Brain. Without it, sync will fail.
+**Why first**: this creates `.gobi/settings.yaml` with the real `vaultSlug` and registers the server-side Brain. The repo intentionally does NOT ship `.gobi/` — it must come from `gobi init` so the slug is correct.
 
 ```bash
 cd /path/to/cmds-vault
@@ -67,11 +67,12 @@ gobi init
 Gobi will:
 1. Confirm your Google account
 2. Ask "Use existing vault or create new?" — pick **create new**, name it (e.g. `cmds-class-2026`)
-3. Write the auto-generated slug into `.gobi/settings.yaml`
+3. Create `.gobi/settings.yaml` with the auto-generated slug
 4. Notice the `BRAIN.md` we ship and leave it alone (won't overwrite)
 
 **Verify**:
 ```bash
+ls .gobi/settings.yaml
 grep vaultSlug .gobi/settings.yaml
 # → vaultSlug: <something-like-brave-path-zr962w>
 ```
@@ -90,7 +91,21 @@ gobi space warp
 grep selectedSpaceSlug .gobi/settings.yaml
 ```
 
-### Step 3 — Personalize the Brain (3 min)
+### Step 3 — Tell Gobi what to sync (30 sec)
+
+`gobi init` doesn't create `.gobi/syncfiles` for you. Drop one in with the three Brain identity files:
+
+```bash
+cat > .gobi/syncfiles <<'EOF'
+/BRAIN.jpg
+/BRAIN.md
+/BRAIN_PROMPT.md
+EOF
+```
+
+Add `/app/home.html` to that file later, after Step 8 (custom homepage). Each line is a path or glob inside the vault.
+
+### Step 4 — Personalize the Brain (3 min)
 
 Three files describe who this Brain is:
 
@@ -105,22 +120,22 @@ obsidian open file=BRAIN_PROMPT.md
 open BRAIN.jpg     # macOS Finder
 ```
 
-**Don't change** the frontmatter keys (`title`, `description`, `thumbnail`, `prompt`, `homepage`) — Gobi looks them up by name.
+**Don't change** the frontmatter keys (`title`, `description`, `thumbnail`, `prompt`) — Gobi looks them up by name. (`homepage` is added in Step 8 if you want a custom Brain page.)
 
-### Step 4 — First sync (1 min)
+### Step 5 — First sync (1 min)
 
 ```bash
-gobi sync --dry-run    # preview — should show 4 files to upload
+gobi sync --dry-run    # preview — should show 3 files to upload
 gobi sync              # actually upload
 ```
 
-You should see uploads for: `BRAIN.md`, `BRAIN.jpg`, `BRAIN_PROMPT.md`, `app/home.html`. (Pattern lives in `.gobi/syncfiles` — edit if you want to sync more.)
+You should see uploads for: `BRAIN.md`, `BRAIN.jpg`, `BRAIN_PROMPT.md`. (Pattern lives in `.gobi/syncfiles` — edit if you want to sync more.)
 
-**Verify on Gobi Space**: open `https://gobispace.com/@<your-vault-slug>` in a browser. The Brain page shows your thumbnail, title, description.
+**Verify on Gobi Space**: open `https://gobispace.com/@<your-vault-slug>` in a browser. The Brain page shows your thumbnail, title, description, and uses Gobi's default homepage rendering.
 
-If the homepage still looks like the default CMDS template — that's expected, we'll customize it in Step 7.
+To replace the default homepage with a custom HTML page, do Step 8.
 
-### Step 5 — First capture (2 min) — *Connect*
+### Step 6 — First capture (2 min) — *Connect*
 
 Time to write your first note. Pick something on your mind right now — a question, a fact, a fragment.
 
@@ -143,7 +158,7 @@ Write 3-5 lines. Don't aim for permanent — this is the **Connect** stage, fast
 
 **Why `00. Inbox/`?** The CMDS taxonomy treats inbox as the universal landing zone. See `.claude/rules/directory-structure.md` for the full layout.
 
-### Step 6 — First Brain Update (2 min) — *Share*
+### Step 7 — First Brain Update (2 min) — *Share*
 
 Brain Updates are how your vault talks to the Gobi space. Even if you have nothing distilled yet, share the fact that you exist:
 
@@ -155,20 +170,26 @@ gobi brain post-update \
 
 **Verify**: refresh `https://gobispace.com/@<your-vault-slug>` — you should see the update at the top.
 
-### Step 7 — Customize the homepage (optional, 2 min)
+### Step 8 — Custom homepage (optional, 3 min)
 
-The homepage Gobi Space renders is `app/home.html`. We ship a CMDS-themed minimal template that calls `window.gobi.listBrainUpdates()` and `window.gobi.getSessions()`.
+By default, Gobi Space renders a built-in homepage from `BRAIN.md`. To replace it with custom HTML:
 
-To customize colors, layout, sections:
-1. Open `90. Settings/gobi/Prompts/Create Brain Homepage (CBH).md` in Claude Code
+1. Open `90. Settings/92. Prompts/Create Brain Homepage (CBH).md` in Claude Code
 2. Run the prompt with your customization request:
-   - "Add a section listing my pinned notes"
-   - "Change accent color to indigo"
+   - "Build me a homepage from scratch with a hero, 3-card grid, and recent BU list"
    - "Add a quote rotator at top"
-3. CBH writes the new `app/home.html` in place
-4. `gobi sync` to push
+3. CBH creates `app/home.html` (and the `app/` folder if needed)
+4. Wire it up so Gobi knows to use it:
+   ```bash
+   # Add to BRAIN.md frontmatter:
+   #   homepage: "[[app/home.html]]"
+   #
+   # Add to .gobi/syncfiles:
+   echo "/app/home.html" >> .gobi/syncfiles
+   ```
+5. `gobi sync` to push
 
-The `window.gobi` API surface CBH can use:
+The `window.gobi` API surface CBH can use inside `app/home.html`:
 - `gobi.vault` — `{title, description, thumbnailPath, vaultId, webdriveUrl}`
 - `gobi.listBrainUpdates({limit, cursor})` — paginated updates
 - `gobi.getSessions({limit})` — chat sessions
@@ -176,7 +197,7 @@ The `window.gobi` API surface CBH can use:
 
 ## Wrap-up
 
-After all 7 steps, the student has:
+After all 8 steps, the student has:
 - ✅ Vault registered on Gobi server (real slug)
 - ✅ Brain published with their identity (BRAIN.md/jpg/PROMPT.md)
 - ✅ One inbox capture (Connect)
@@ -208,21 +229,22 @@ If the user says "continue onboarding" / "온보딩 이어서 하자" / "where w
 
 ```bash
 # Check progress flags
-grep vaultSlug .gobi/settings.yaml         # Step 1 done?
-grep selectedSpaceSlug .gobi/settings.yaml # Step 2 done?
-grep -q "Your Second Brain" BRAIN.md       # Step 3 NOT done if matches
-ls .gobi/sync.db 2>/dev/null               # Step 4 done if exists
-ls "00. Inbox/01. Daily Notes/"*.md 2>/dev/null   # Step 5 done if files
-gobi brain list-updates --mine --limit 1   # Step 6 done if any
-diff app/home.html <(curl -s https://raw.githubusercontent.com/jykim/cmds-vault/main/app/home.html) >/dev/null 2>&1 && echo "default" || echo "customized"  # Step 7
+ls .gobi/settings.yaml 2>/dev/null && grep vaultSlug .gobi/settings.yaml          # Step 1 done?
+grep -q selectedSpaceSlug .gobi/settings.yaml 2>/dev/null && echo "Step 2 done"   # Step 2
+ls .gobi/syncfiles 2>/dev/null && echo "Step 3 done"                              # Step 3
+grep -q "Your Second Brain" BRAIN.md && echo "Step 4 NOT done" || echo "Step 4 done"  # Step 4 not done if template still present
+ls .gobi/sync.db 2>/dev/null && echo "Step 5 done"                                # Step 5 done if sync.db exists
+ls "00. Inbox/01. Daily Notes/"*.md 2>/dev/null | head -1                         # Step 6 done if any file
+gobi brain list-updates --mine --limit 1 2>/dev/null                              # Step 7 done if any
+ls app/home.html 2>/dev/null && echo "Step 8 done (app/home.html exists)"         # Step 8
 ```
 
 Resume from the first failing check.
 
 ## References
 
-- `90. Settings/gobi/Skills/gobi-cli/SKILL.md` — full Gobi CLI command reference
-- `90. Settings/gobi/Prompts/Create Brain Homepage (CBH).md` — customize `app/home.html`
+- `90. Settings/91. Skills/gobi-cli/SKILL.md` — full Gobi CLI command reference
+- `90. Settings/92. Prompts/Create Brain Homepage (CBH).md` — build a custom Brain page
 - `.claude/rules/directory-structure.md` — full numeric folder taxonomy
 - `🏛 CMDS Head Quarter.md` — vault navigation hub
 - Upstream original: [ai4pkm-vault `gobi-onboarding`](https://github.com/jykim/ai4pkm-vault/tree/main/_Settings_/Skills/gobi-onboarding) — voice-first 5-stage flow this skill simplifies for class use

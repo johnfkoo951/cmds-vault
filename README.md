@@ -7,7 +7,7 @@
 This vault is a **graft**:
 
 - **Base** — [cmds-system-files](https://github.com/johnfkoo951/cmds-system-files) by John Koo. The 5 system files (`CLAUDE.md`, `AGENTS.md`, `CMDS.md`, `CMDS-Guide.md`, `🏛 CMDS Head Quarter.md`) and 7 shared rules (`.claude/rules/`) define the CMDS PKM operating model — atomic notes, frontmatter standard, 4-stage pipeline (Connect → Merge → Develop → Share), wikilink discipline.
-- **Add-on** — minimal Gobi files (`BRAIN.md`, `BRAIN.jpg`, `BRAIN_PROMPT.md`, `app/home.html`, `.gobi/`) so the vault registers as a Gobi Brain and can publish to Gobi Space. Gobi tooling lives in `90. Settings/gobi/Skills/gobi-cli/` and `90. Settings/gobi/Prompts/`.
+- **Add-on** — minimal Gobi identity files (`BRAIN.md`, `BRAIN.jpg`, `BRAIN_PROMPT.md`) so the vault registers as a Gobi Brain. Skills and prompts that drive Gobi live in cmds-style `90. Settings/91. Skills/` and `90. Settings/92. Prompts/`. The `.gobi/` runtime folder is **not** shipped — `gobi init` creates it on first run.
 
 Numeric folders (`00. Inbox/` … `90. Settings/`) are pre-created with `.gitkeep` placeholders matching `cmds-system-files/rules/directory-structure.md`. No manual setup required.
 
@@ -29,25 +29,35 @@ Open `~/Documents/cmds-vault` in Obsidian via **Open folder as vault**.
 
 ### 3. Connect Gobi
 
-Install [Gobi Desktop](https://gobi.app) (or just the [CLI](https://github.com/gobi-ai/cli)), then run the three setup commands **in order**:
+Install [Gobi Desktop](https://gobi.app) (or just the [CLI](https://github.com/gobi-ai/cli)), then run the four setup commands **in order**:
 
 ```bash
 cd ~/Documents/cmds-vault
 
-gobi init           # log in, create or pick a vault → writes vaultSlug
-gobi space warp     # pick which Gobi space to publish to → writes selectedSpaceSlug
-gobi sync           # first upload of BRAIN.{md,jpg}, BRAIN_PROMPT.md, app/home.html
+gobi init           # log in, create or pick a vault → creates .gobi/settings.yaml with vaultSlug
+gobi space warp     # pick which Gobi space to publish to → adds selectedSpaceSlug
+
+# tell Gobi what to sync (one-time)
+mkdir -p .gobi && cat > .gobi/syncfiles <<'EOF'
+/BRAIN.jpg
+/BRAIN.md
+/BRAIN_PROMPT.md
+EOF
+
+gobi sync           # first upload of BRAIN.{md,jpg}, BRAIN_PROMPT.md
 ```
 
-The shipped `.gobi/settings.yaml` is intentionally a **stub** — `gobi init` will fill in `vaultSlug` (auto-generated like `brave-path-zr962w`) and `gobi space warp` fills in `selectedSpaceSlug`. Don't hand-edit those values.
+The repo ships **without** `.gobi/` — `gobi init` creates it cleanly with the auto-generated `vaultSlug` (like `brave-path-zr962w`). Don't hand-edit those values.
 
 After `gobi sync`, your Brain page appears at `https://gobispace.com/@<your-vault-slug>`.
 
 For the full first-run flow with troubleshooting and resume logic, follow the **Gobi Onboarding** skill at:
-- `90. Settings/gobi/Skills/gobi-onboarding/SKILL.md`
+- `90. Settings/91. Skills/gobi-onboarding/SKILL.md`
 
 To customize what visitors see on your Brain page, run the **Create Brain Homepage (CBH)** prompt at:
-- `90. Settings/gobi/Prompts/Create Brain Homepage (CBH).md`
+- `90. Settings/92. Prompts/Create Brain Homepage (CBH).md`
+
+CBH creates `app/home.html` from scratch. After running it, add `homepage: "[[app/home.html]]"` to `BRAIN.md` frontmatter and `/app/home.html` to `.gobi/syncfiles`, then re-sync.
 
 ### 4. Start writing
 
@@ -76,17 +86,17 @@ cmds-vault/
 ├── 70. Outputs/                                      # Final deliverables
 ├── 80. References/                                   # Reference materials
 ├── 90. Settings/
-│   ├── 94. Agent Settings/claude/{agents,commands,rules,skills}/   # cmds Agent Settings (symlink-ready)
-│   └── gobi/                                                       # Gobi-specific tooling
-│       ├── Skills/
-│       │   ├── gobi-cli/                                           # Gobi CLI skill (sync, space, brain, session)
-│       │   └── gobi-onboarding/                                    # First-run setup walkthrough
-│       └── Prompts/Create Brain Homepage (CBH).md                  # Customize app/home.html
+│   ├── 91. Skills/
+│   │   ├── gobi-cli/                                  # Gobi CLI skill (sync, space, brain, session)
+│   │   └── gobi-onboarding/                           # First-run setup walkthrough
+│   ├── 92. Prompts/
+│   │   └── Create Brain Homepage (CBH).md             # Build a custom Brain page on demand
+│   └── 94. Agent Settings/claude/{agents,commands,rules,skills}/   # cmds Agent Settings (symlink-ready)
 │
-├── BRAIN.md, BRAIN.jpg, BRAIN_PROMPT.md              # Gobi Brain identity
-├── .gobi/{settings.yaml, syncfiles}                  # Gobi sync configuration
-└── app/home.html                                     # Gobi Space homepage (CMDS-themed default)
+└── BRAIN.md, BRAIN.jpg, BRAIN_PROMPT.md              # Gobi Brain identity (sync target)
 ```
+
+`.gobi/` (settings + sync state) is created by `gobi init` on first run — not shipped. `app/home.html` is created on demand by the CBH prompt — also not shipped.
 
 ## What this vault does NOT include
 
@@ -98,7 +108,7 @@ Kept deliberately minimal for class use. The following are **not** copied from t
 
 If you want any of these later, copy them from [ai4pkm-vault](https://github.com/jykim/ai4pkm-vault) by hand.
 
-> Note: `gobi-onboarding` IS included (under `90. Settings/gobi/Skills/gobi-onboarding/`) but it's a **streamlined class version** of ai4pkm's, not a copy. Voice mode is optional, no BBF/BBG profile-extraction games, anchored to CMDS folder taxonomy and Connect→Merge→Develop→Share vocabulary.
+> Note: `gobi-onboarding` IS included (under `90. Settings/91. Skills/gobi-onboarding/`) but it's a **streamlined class version** of ai4pkm's, not a copy. Voice mode is optional, no BBF/BBG profile-extraction games, anchored to CMDS folder taxonomy and Connect→Merge→Develop→Share vocabulary.
 
 ## Symlink the .claude/ folder (advanced, optional)
 

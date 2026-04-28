@@ -17,6 +17,6 @@
 .vercel
 .env*.local
 
-# History/log scratch
-_Settings_/History/
-_Settings_/Logs/
+# Local-only scratch (any 9x slot students may carve out for runtime state)
+"90. Settings/95. History/"
+"90. Settings/96. Logs/"

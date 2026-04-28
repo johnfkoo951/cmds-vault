@@ -3,7 +3,6 @@ title: "Your Second Brain"
 description: "Class vault running CMDS conventions with Gobi Desktop / Space integration. Edit this file to introduce yourself, set the Brain's voice, and pick a thumbnail."
 thumbnail: "[[BRAIN.jpg]]"
 prompt: "[[BRAIN_PROMPT.md]]"
-homepage: "[[app/home.html]]"
 tags:
   - profile
   - second-brain
@@ -12,7 +11,7 @@ created: 2026-04-26 23:05:00
 
 ## Welcome to Your Second Brain
 
-This is the **Brain page** that Gobi Desktop and Gobi Space read to introduce your vault. Replace the contents below with your own profile, areas of interest, and pinned threads. Keep the frontmatter keys (`title`, `description`, `thumbnail`, `prompt`, `homepage`) intact — Gobi looks them up by name.
+This is the **Brain page** that Gobi Desktop and Gobi Space read to introduce your vault. Replace the contents below with your own profile, areas of interest, and pinned threads. Keep the frontmatter keys (`title`, `description`, `thumbnail`, `prompt`) intact — Gobi looks them up by name.
 
 ### About Me
 
@@ -40,6 +39,6 @@ Briefly describe your workflow. Examples:
 
 1. **Replace `BRAIN.jpg`** with your own portrait or icon (square, 512×512+, JPG/PNG renamed to `BRAIN.jpg`)
 2. **Edit `BRAIN_PROMPT.md`** to set the voice your Brain answers in (Gobi reads this when answering chat sessions)
-3. **Run `Create Brain Homepage (CBH)` prompt** (`90. Settings/gobi/Prompts/Create Brain Homepage (CBH).md`) to regenerate `app/home.html` with your own branding
+3. **(Optional) Custom homepage** — run the **Create Brain Homepage (CBH)** prompt at `90. Settings/92. Prompts/Create Brain Homepage (CBH).md`. CBH creates `app/home.html`, then add `homepage: "[[app/home.html]]"` to this file's frontmatter and `/app/home.html` to `.gobi/syncfiles` so Gobi Space picks it up.
 
 For Gobi setup, see this vault's `README.md`.
