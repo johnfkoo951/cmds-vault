@@ -117,7 +117,12 @@ Open all three:
 ```bash
 obsidian open file=BRAIN.md
 obsidian open file=BRAIN_PROMPT.md
-open BRAIN.jpg     # macOS Finder
+
+# Open BRAIN.jpg in your OS's default image viewer:
+#   macOS:   open BRAIN.jpg
+#   Linux:   xdg-open BRAIN.jpg
+#   Windows: start BRAIN.jpg
+# Or just drag a new image onto BRAIN.jpg in your file manager.
 ```
 
 **Don't change** the frontmatter keys (`title`, `description`, `thumbnail`, `prompt`) — Gobi looks them up by name. (`homepage` is added in Step 8 if you want a custom Brain page.)
@@ -139,22 +144,34 @@ To replace the default homepage with a custom HTML page, do Step 8.
 
 Time to write your first note. Pick something on your mind right now — a question, a fact, a fragment.
 
+The note must satisfy CMDS frontmatter standard (`.claude/rules/frontmatter-standard.md`): all 7 properties (`type`, `aliases`, `description`, `author`, `date created`, `date modified`, `tags`). Filename is kebab-case `YYYY-MM-DD-description.md` per `.claude/rules/file-creation-rules.md`.
+
 ```bash
-# Replace the date and title
-echo "---
-title: \"My first capture\"
-created: $(date '+%Y-%m-%d %H:%M:%S')
+today=$(date +%Y-%m-%d)
+now=$(date +%Y-%m-%dT%H:%M)
+
+cat > "00. Inbox/01. Daily Notes/${today}-first-capture.md" <<EOF
+---
+type: note
+aliases: []
+description: "First inbox capture written during cmds-vault onboarding. Placeholder until I have something specific to think about."
+author:
+  - "[[Me]]"
+date created: ${now}
+date modified: ${now}
 tags:
   - inbox
+  - onboarding
 ---
 
 ## What I'm thinking about today
-" > "00. Inbox/01. Daily Notes/$(date '+%Y-%m-%d') first capture.md"
 
-obsidian open file="00. Inbox/01. Daily Notes/$(date '+%Y-%m-%d') first capture.md"
+EOF
+
+obsidian open file="${today}-first-capture.md"
 ```
 
-Write 3-5 lines. Don't aim for permanent — this is the **Connect** stage, fast & loose.
+Write 3-5 lines under the heading. Don't aim for permanent — this is the **Connect** stage, fast & loose. Replace `[[Me]]` with your own People note once you have one.
 
 **Why `00. Inbox/`?** The CMDS taxonomy treats inbox as the universal landing zone. See `.claude/rules/directory-structure.md` for the full layout.
 
@@ -164,8 +181,8 @@ Brain Updates are how your vault talks to the Gobi space. Even if you have nothi
 
 ```bash
 gobi brain post-update \
-  --title "Joined the cmds class" \
-  --content "Just set up my Second Brain following CMDS conventions. Looking forward to learning Connect → Merge → Develop → Share."
+  --title "Hello — my Second Brain is online" \
+  --content "Just finished CMDS-conventions vault setup with Gobi. First topic on my mind: <write 1-2 sentences about something you want to think about this week>."
 ```
 
 **Verify**: refresh `https://gobispace.com/@<your-vault-slug>` — you should see the update at the top.
@@ -178,16 +195,8 @@ By default, Gobi Space renders a built-in homepage from `BRAIN.md`. To replace i
 2. Run the prompt with your customization request:
    - "Build me a homepage from scratch with a hero, 3-card grid, and recent BU list"
    - "Add a quote rotator at top"
-3. CBH creates `app/home.html` (and the `app/` folder if needed)
-4. Wire it up so Gobi knows to use it:
-   ```bash
-   # Add to BRAIN.md frontmatter:
-   #   homepage: "[[app/home.html]]"
-   #
-   # Add to .gobi/syncfiles:
-   echo "/app/home.html" >> .gobi/syncfiles
-   ```
-5. `gobi sync` to push
+3. CBH creates `app/home.html` (and the `app/` folder if needed) and auto-wires `BRAIN.md` (adds `homepage: "[[app/home.html]]"` frontmatter) and `.gobi/syncfiles` (appends `/app/home.html`). No manual edits needed.
+4. `gobi sync` to push
 
 The `window.gobi` API surface CBH can use inside `app/home.html`:
 - `gobi.vault` — `{title, description, thumbnailPath, vaultId, webdriveUrl}`
@@ -208,7 +217,7 @@ What's NOT covered (deliberately) — the student picks these up at their own pa
 
 - **Merge** stage: weekly distillation from `00. Inbox/` → `20. Literature Notes/`
 - **Develop** stage: extracting evergreen claims into `30. Permanent Notes/`
-- Voice mode setup (uncomment `voiceSettings` in `.gobi/settings.yaml`, install RVA prompt)
+- Voice mode setup — out of scope for this vault. To enable: copy a voice prompt (e.g. ai4pkm-vault's [`Real-time Voice Assistant (RVA).md`](https://github.com/jykim/ai4pkm-vault/blob/main/_Settings_/Prompts/Real-time%20Voice%20Assistant%20%28RVA%29.md)) into `90. Settings/92. Prompts/`, then add a `voiceSettings:` block to `.gobi/settings.yaml` referencing that path
 - The 7 CMDS rules (`.claude/rules/`) — read on demand, not memorized
 - The 5 CMDS files (`CLAUDE.md`, `AGENTS.md`, `CMDS.md`, `CMDS Guide.md`, `🏛 CMDS Head Quarter.md`) — load when AI agents work in the vault
 
