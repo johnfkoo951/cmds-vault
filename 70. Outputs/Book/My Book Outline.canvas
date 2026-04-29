@@ -1,0 +1,22 @@
+{
+	"nodes":[
+		{"id":"core","type":"text","text":"# Core Question\n\n<자기 책의 핵심 질문 1줄>","x":-260,"y":-200,"width":520,"height":140,"color":"3"},
+		{"id":"ch1","type":"text","text":"## Ch.1 — <제목>\n\n<한 줄 설명>","x":-560,"y":40,"width":260,"height":140,"color":"4"},
+		{"id":"ch2","type":"text","text":"## Ch.2 — <제목>\n\n<한 줄 설명>","x":-280,"y":40,"width":260,"height":140,"color":"4"},
+		{"id":"ch3","type":"text","text":"## Ch.3 — <제목>\n\n<한 줄 설명>","x":0,"y":40,"width":260,"height":140,"color":"4"},
+		{"id":"ch4","type":"text","text":"## Ch.4 — <제목>\n\n<한 줄 설명>","x":280,"y":40,"width":260,"height":140,"color":"4"},
+		{"id":"ch5","type":"text","text":"## Ch.5 — <제목>\n\n<한 줄 설명>","x":-140,"y":220,"width":260,"height":140,"color":"4"},
+		{"id":"sources","type":"text","text":"## Source Materials\n\n- [[<reference 1>]]\n- [[<reference 2>]]\n- [[<reference 3>]]","x":160,"y":-200,"width":380,"height":140,"color":"6"}
+	],
+	"edges":[
+		{"id":"e_core_ch1","fromNode":"core","fromSide":"bottom","toNode":"ch1","toSide":"top"},
+		{"id":"e_core_ch2","fromNode":"core","fromSide":"bottom","toNode":"ch2","toSide":"top"},
+		{"id":"e_core_ch3","fromNode":"core","fromSide":"bottom","toNode":"ch3","toSide":"top"},
+		{"id":"e_core_ch4","fromNode":"core","fromSide":"bottom","toNode":"ch4","toSide":"top"},
+		{"id":"e_core_ch5","fromNode":"core","fromSide":"bottom","toNode":"ch5","toSide":"top"}
+	],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}
