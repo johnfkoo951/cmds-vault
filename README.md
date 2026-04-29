@@ -6,7 +6,7 @@
 
 This vault is a **graft**:
 
-- **Base** — [cmds-system-files](https://github.com/johnfkoo951/cmds-system-files) by John Koo. The 5 system files (`CLAUDE.md`, `AGENTS.md`, `CMDS.md`, `CMDS-Guide.md`, `🏛 CMDS Head Quarter.md`) and 7 shared rules (`.claude/rules/`) define the CMDS PKM operating model — atomic notes, frontmatter standard, 4-stage pipeline (Connect → Merge → Develop → Share), wikilink discipline.
+- **Base** — [cmds-system-files](https://github.com/johnfkoo951/cmds-system-files) by John Koo. The 5 system files (`CLAUDE.md`, `AGENTS.md`, `CMDS.md`, `🏛 CMDS Guide.md`, `🏛 CMDS Head Quarter.md`) and 7 shared rules (`.claude/rules/`) plus 8 slash commands (`.claude/commands/`) define the CMDS PKM operating model — atomic notes, frontmatter standard, 4-stage pipeline (Connect → Merge → Develop → Share), wikilink discipline.
 - **Add-on** — minimal Gobi identity files (`BRAIN.md`, `BRAIN.jpg`, `BRAIN_PROMPT.md`) so the vault registers as a Gobi Brain. Skills and prompts that drive Gobi live in cmds-style `90. Settings/91. Skills/` and `90. Settings/92. Prompts/`. The `.gobi/` runtime folder is **not** shipped — `gobi init` creates it on first run.
 
 Numeric folders (`00. Inbox/` … `90. Settings/`) are pre-created with `.gitkeep` placeholders matching `cmds-system-files/rules/directory-structure.md`. No manual setup required.
@@ -21,13 +21,24 @@ git clone https://github.com/jykim/cmds-vault.git ~/Documents/cmds-vault
 
 Open `~/Documents/cmds-vault` in Obsidian via **Open folder as vault**.
 
-### 2. Personalize the Brain
+### 2. Read [[WELCOME]] first
+
+Before personalizing, open `WELCOME.md` in Obsidian. It walks through:
+
+- The 5 system files (CLAUDE / AGENTS / CMDS / 🏛 CMDS Guide / 🏛 HQ) and what each one is for
+- How to batch-replace the `[[Me]]` placeholder with your own name (one Claude Code session)
+- A 5-minute first Connect → Merge → Develop → Share cycle
+- Where to find the slash commands
+
+The WELCOME doc is the canonical "first read." This README is just deployment.
+
+### 3. Personalize the Brain
 
 - Replace `BRAIN.jpg` with your own portrait or icon (square, 512×512+, JPG/PNG renamed to `BRAIN.jpg`).
 - Edit `BRAIN.md` — fill in your name, interests, pinned notes.
 - Edit `BRAIN_PROMPT.md` — set the voice your Brain uses when answering chat sessions on Gobi Space.
 
-### 3. Connect Gobi
+### 4. Connect Gobi
 
 Install [Gobi Desktop](https://gobi.app) (or just the [CLI](https://github.com/gobi-ai/cli)), then run the four setup commands **in order**:
 
@@ -59,7 +70,7 @@ To customize what visitors see on your Brain page, run the **Create Brain Homepa
 
 CBH creates `app/home.html` from scratch. After running it, add `homepage: "[[app/home.html]]"` to `BRAIN.md` frontmatter and `/app/home.html` to `.gobi/syncfiles`, then re-sync.
 
-### 4. Start writing
+### 5. Start writing
 
 - Daily fragments → `00. Inbox/01. Daily Notes/`
 - Web clippings → `00. Inbox/02. Clippings/`
@@ -72,9 +83,11 @@ Refer to `[[🏛 CMDS Head Quarter]]` in Obsidian for the full navigation.
 
 ```
 cmds-vault/
-├── CLAUDE.md, AGENTS.md, CMDS.md, CMDS-Guide.md      # CMDS system files (load order: precedence 1-4)
+├── CLAUDE.md, AGENTS.md, CMDS.md, 🏛 CMDS Guide.md   # CMDS system files (load order: precedence 1-4)
 ├── 🏛 CMDS Head Quarter.md                            # Navigation hub (precedence 5)
+├── WELCOME.md                                         # First-read onboarding doc (vault use guide + author batch-replace)
 ├── .claude/rules/                                    # 7 shared rules (frontmatter, wikilink, etc.)
+├── .claude/commands/                                 # 8 slash commands (connect/merge/develop/share/inbox/lint/query/status)
 │
 ├── 00. Inbox/{01-09 subfolders}/                     # Capture
 ├── 10. CMDS Process/                                 # Connect → Merge → Develop → Share

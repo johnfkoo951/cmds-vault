@@ -139,24 +139,39 @@ To replace the default homepage with a custom HTML page, do Step 8.
 
 Time to write your first note. Pick something on your mind right now — a question, a fact, a fragment.
 
+CMDS naming convention: `YYYY-MM-DD-description.md`. Use heredoc with single-quoted EOF for safe YAML frontmatter:
+
 ```bash
-# Replace the date and title
-echo "---
-title: \"My first capture\"
-created: $(date '+%Y-%m-%d %H:%M:%S')
+TODAY=$(date '+%Y-%m-%d')
+NOTE_PATH="00. Inbox/01. Daily Notes/${TODAY}-first-capture.md"
+
+cat > "$NOTE_PATH" <<EOF
+---
+type: daily-note
+aliases: []
+description: "My very first capture in the CMDS vault — Connect stage."
+author:
+  - "[[Me]]"
+date created: ${TODAY}
+date modified: ${TODAY}
 tags:
   - inbox
+  - first-capture
 ---
 
 ## What I'm thinking about today
-" > "00. Inbox/01. Daily Notes/$(date '+%Y-%m-%d') first capture.md"
 
-obsidian open file="00. Inbox/01. Daily Notes/$(date '+%Y-%m-%d') first capture.md"
+EOF
+
+# Open in Obsidian if Obsidian CLI is installed (v1.12+):
+obsidian open file="$NOTE_PATH" 2>/dev/null || open -a Obsidian "$NOTE_PATH" 2>/dev/null || echo "Open $NOTE_PATH manually in Obsidian"
 ```
 
 Write 3-5 lines. Don't aim for permanent — this is the **Connect** stage, fast & loose.
 
 **Why `00. Inbox/`?** The CMDS taxonomy treats inbox as the universal landing zone. See `.claude/rules/directory-structure.md` for the full layout.
+
+> **Note**: `author: [[Me]]` is the placeholder. After you finish onboarding, run the WELCOME ritual ([[WELCOME]]) to batch-replace `[[Me]]` with your actual name across all notes and system files.
 
 ### Step 7 — First Brain Update (2 min) — *Share*
 
@@ -232,7 +247,7 @@ If the user says "continue onboarding" / "온보딩 이어서 하자" / "where w
 ls .gobi/settings.yaml 2>/dev/null && grep vaultSlug .gobi/settings.yaml          # Step 1 done?
 grep -q selectedSpaceSlug .gobi/settings.yaml 2>/dev/null && echo "Step 2 done"   # Step 2
 ls .gobi/syncfiles 2>/dev/null && echo "Step 3 done"                              # Step 3
-grep -q "Your Second Brain" BRAIN.md && echo "Step 4 NOT done" || echo "Step 4 done"  # Step 4 not done if template still present
+grep -q "(your name)" BRAIN.md && echo "Step 4 NOT done — placeholder still present" || echo "Step 4 done"  # placeholder gone = personalized
 ls .gobi/sync.db 2>/dev/null && echo "Step 5 done"                                # Step 5 done if sync.db exists
 ls "00. Inbox/01. Daily Notes/"*.md 2>/dev/null | head -1                         # Step 6 done if any file
 gobi brain list-updates --mine --limit 1 2>/dev/null                              # Step 7 done if any
@@ -243,6 +258,7 @@ Resume from the first failing check.
 
 ## References
 
+- `WELCOME.md` — first-read onboarding doc (read BEFORE this skill if you haven't)
 - `90. Settings/91. Skills/gobi-cli/SKILL.md` — full Gobi CLI command reference
 - `90. Settings/92. Prompts/Create Brain Homepage (CBH).md` — build a custom Brain page
 - `.claude/rules/directory-structure.md` — full numeric folder taxonomy
