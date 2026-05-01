@@ -16,7 +16,7 @@ Numeric folders (`00. Inbox/` … `90. Settings/`) are pre-created with `.gitkee
 ### 1. Clone and open
 
 ```bash
-git clone https://github.com/jykim/cmds-vault.git ~/Documents/cmds-vault
+git clone https://github.com/johnfkoo951/cmds-vault.git ~/Documents/cmds-vault
 ```
 
 Open `~/Documents/cmds-vault` in Obsidian via **Open folder as vault**.
