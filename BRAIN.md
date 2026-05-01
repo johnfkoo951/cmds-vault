@@ -33,7 +33,8 @@ Briefly describe your workflow. Examples:
 ### Pinned
 
 - [[🏛 CMDS Head Quarter]] — vault navigation hub
-- [[CMDS Guide]] — operational standards
+- [[🏛 CMDS Guide]] — operational standards
+- [[WELCOME]] — first-read onboarding (vault use guide + author batch-replace)
 
 ## Customizing This Brain
 
