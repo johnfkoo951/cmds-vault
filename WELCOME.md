@@ -61,6 +61,13 @@ Before doing anything, skim the 5 system files. You don't need to memorize — j
 
 ## 🪪 Step 1 — Personalize your operator profile (5 min)
 
+> 💡 **Two paths**:
+>
+> - **Manual path (Steps 1A–1D below)**: you decide each piece, run the batch-replace yourself, fill BRAIN.md by hand. Best when you want full control.
+> - **Guided path (cmds-onboarding skill)**: open Claude Code in this vault and say *"cmds onboarding"* — a 15-min interview-led skill that runs the batch-replace, fills BRAIN.md from your answers, and creates 5–10 themed stub notes in `30. Permanent Notes/`. Skill location: `90. Settings/91. Skills/cmds-onboarding/SKILL.md`. Best when you want context filled fast.
+>
+> Both paths produce the same end state. Pick one. You can also start with the guided path and tune by hand afterward.
+
 Right now, the system files refer to you as **`[[Me]]`** (a placeholder wikilink). The vault operator profile in [[CMDS]] is also a placeholder template (`(Your Name)` section). Both need to be filled in.
 
 This is intentional: by shipping placeholders, the starter never assumes a name, but it also marks the spots that **must** become *your* identity for AI assistants to give context-aware answers.
@@ -249,15 +256,28 @@ inbox 가득:       /inbox → /connect       (capture)
 
 ## ✅ Onboarding checklist
 
+### Manual path
 - [ ] Read CMDS.md and HQ.md (10 min)
 - [ ] Skim 🏛 CMDS Guide and CLAUDE.md (5 min)
 - [ ] Pick operator wikilink and run author batch-replace (5 min)
 - [ ] Fill in `(Your Name)` profile section in CMDS.md (5 min)
 - [ ] Personalize BRAIN.md (5 min)
 - [ ] Try `/status` and `/connect` once each (5 min)
-- [ ] (Optional) Run gobi-onboarding skill (10 min)
+- [ ] (Optional) Run gobi-onboarding skill (10 min) — for Gobi Space publish
 
-After this, you have a personalized vault ready for daily use. Welcome to CMDS.
+### Guided path (recommended for class / cohort use)
+- [ ] Read CMDS.md (skim) and HQ.md (5 min)
+- [ ] Open this vault in Claude Code: `cd <vault> && claude`
+- [ ] Say *"cmds onboarding"* — runs `90. Settings/91. Skills/cmds-onboarding/` (15 min interview)
+  - Steps 1·2: operator wikilink + batch-replace (auto)
+  - Step 3: persona interview (5–8 min)
+  - Step 4: BRAIN.md filled from answers
+  - Step 5: 5–10 stub notes in `30. Permanent Notes/`
+  - Step 6 (optional): CMDS.md operator profile
+- [ ] Try `/status` and `/connect` once each (5 min)
+- [ ] (Optional) Run gobi-onboarding skill (10 min) — for Gobi Space publish
+
+After either path, you have a personalized vault ready for daily use. Welcome to CMDS.
 
 ---
 
