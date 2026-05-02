@@ -6,7 +6,7 @@ aliases:
   - First Read
 description: "First-read onboarding doc for the CMDS starter vault. Walks through the 5 system files, the author placeholder batch-replace ritual, and the first Connect→Merge→Develop→Share cycle. Read this BEFORE the gobi-onboarding skill."
 author:
-  - "[[Me]]"
+  - "[[구요한]]"
 date created: 2026-04-28
 date modified: 2026-04-28
 tags:
@@ -64,13 +64,19 @@ Before doing anything, skim the 5 system files. You don't need to memorize — j
 > 💡 **Two paths**:
 >
 > - **Manual path (Steps 1A–1D below)**: you decide each piece, run the batch-replace yourself, fill BRAIN.md by hand. Best when you want full control.
-> - **Guided path (cmds-onboarding skill)**: open Claude Code in this vault and say *"cmds onboarding"* — a 15-min interview-led skill that runs the batch-replace, fills BRAIN.md from your answers, and creates 5–10 themed stub notes in `30. Permanent Notes/`. Skill location: `90. Settings/91. Skills/cmds-onboarding/SKILL.md`. Best when you want context filled fast.
+> - **Guided path (cmds-onboarding skill)**: open Claude Code in this vault and say *"cmds onboarding"* — a 15-min interview-led skill that runs the user-scope batch-replace, fills BRAIN.md from your answers, and creates 5–10 themed stub notes in `30. Permanent Notes/`. Skill location: `90. Settings/91. Skills/cmds-onboarding/SKILL.md`. Best when you want context filled fast.
 >
 > Both paths produce the same end state. Pick one. You can also start with the guided path and tune by hand afterward.
 
-Right now, the system files refer to you as **`[[Me]]`** (a placeholder wikilink). The vault operator profile in [[CMDS]] is also a placeholder template (`(Your Name)` section). Both need to be filled in.
+### Authorship policy — two distinct identities
 
-This is intentional: by shipping placeholders, the starter never assumes a name, but it also marks the spots that **must** become *your* identity for AI assistants to give context-aware answers.
+This starter vault has **two kinds of `author:` field**:
+
+1. **System file authorship** = `[[구요한]]` (the original CMDS author). This is **attribution** — it identifies who wrote the system files (CLAUDE.md, AGENTS.md, CMDS.md, 🏛 CMDS Guide.md, 🏛 CMDS Head Quarter.md, WELCOME.md, README.md), the slash commands, the rules, and the skills. **Do not change these.** When you publish or fork your vault, this attribution should remain `[[구요한]]` so the upstream lineage is preserved.
+
+2. **Your-note authorship** = `[[Me]]` placeholder, which the onboarding flow batch-replaces with `[[<Your Name>]]`. This appears in templates and example frontmatters that *you* will use when creating your own notes (daily notes, permanent notes, BRAIN.md, captures). **These should become your name.**
+
+The vault operator profile in [[CMDS]] also has a `(Your Name)` placeholder section — fill it in once during onboarding so AI assistants give context-aware answers.
 
 ### 1A. Pick your operator wikilink
 
@@ -84,24 +90,31 @@ Decide what name your `author` field should use. Options:
 
 Pick one. You can change later (just re-run the ritual below).
 
-### 1B. Run the "author batch-replace" ritual
+### 1B. Run the "user-scope author batch-replace" ritual
 
 Open this vault folder in Claude Code (`cd <vault-path> && claude`). Then paste this prompt verbatim, replacing `<Your Name>` with what you chose:
 
 > **Prompt for Claude Code:**
 >
 > ```
-> Batch-replace `[[Me]]` with `[[<Your Name>]]` across this vault, scope = all .md files in:
-> - vault root (CLAUDE.md, AGENTS.md, CMDS.md, 🏛 CMDS Guide.md, 🏛 CMDS Head Quarter.md, BRAIN.md, BRAIN_PROMPT.md, WELCOME.md, README.md)
-> - .claude/commands/ (8 files)
-> - 90. Settings/94. Agent Settings/claude/commands/ (mirror)
-> - 90. Settings/91. Skills/ (gobi-cli, gobi-onboarding)
-> - 90. Settings/92. Prompts/
-> - 00. Inbox/ (any notes I've already started)
-> - 30. Permanent Notes/, 20. Literature Notes/, 60. Collections/ etc.
+> Batch-replace `[[Me]]` with `[[<Your Name>]]` across this vault — but ONLY in user-personalization scope.
 >
-> Use exact-string replace (not fuzzy) — only change `[[Me]]` (case-sensitive).
-> After replacing, run a verification grep to confirm zero residual `[[Me]]` and report counts per directory.
+> INCLUDE (these are placeholders meant for the operator):
+> - `BRAIN.md` and `BRAIN_PROMPT.md` (your Brain identity)
+> - `00. Inbox/` (any notes you've started)
+> - `30. Permanent Notes/`, `20. Literature Notes/`, `60. Collections/` (your captures)
+> - `90. Settings/91. Templates/` (note templates you'll use)
+>
+> EXCLUDE (these are system-file authorship — leave their author fields as `[[구요한]]`):
+> - vault root system files: CLAUDE.md, AGENTS.md, CMDS.md, 🏛 CMDS Guide.md, 🏛 CMDS Head Quarter.md, WELCOME.md, README.md
+> - `.claude/commands/`, `.claude/rules/`
+> - `90. Settings/94. Agent Settings/claude/commands/` (mirror)
+> - `90. Settings/91. Skills/` (cmds-onboarding, gobi-onboarding, gobi-cli, daily-book-update)
+> - `90. Settings/92. Prompts/`
+>
+> Note: Body-text occurrences of `[[Me]]` inside the EXCLUDE files (e.g. example frontmatter snippets showing what your notes should look like) should also remain unchanged — they are *placeholders for your future notes*, not authorship of the system file itself.
+>
+> Use exact-string replace (case-sensitive). After replacing, run a verification grep across the INCLUDE scope to confirm zero residual `[[Me]]` there, and report counts per directory.
 > ```
 
 Or, if you prefer the shell:
@@ -109,18 +122,23 @@ Or, if you prefer the shell:
 ```bash
 cd <your-vault-path>
 
-# Preview first
-grep -rn '\[\[Me\]\]' --include='*.md' . | head -30
+# Preview first (limited to user-personalization scope)
+grep -rn '\[\[Me\]\]' --include='*.md' BRAIN.md BRAIN_PROMPT.md "00. Inbox" "30. Permanent Notes" "20. Literature Notes" "60. Collections" "90. Settings/91. Templates" 2>/dev/null
 
-# Run the replace (macOS / BSD sed)
-find . -name '*.md' -type f -not -path './.git/*' \
-  -exec sed -i '' 's/\[\[Me\]\]/[[Your Name]]/g' {} +
+# Run the replace (only in user-scope dirs/files; system files untouched)
+for target in BRAIN.md BRAIN_PROMPT.md "00. Inbox" "30. Permanent Notes" "20. Literature Notes" "60. Collections" "90. Settings/91. Templates"; do
+  if [ -e "$target" ]; then
+    find "$target" -name '*.md' -type f -exec sed -i '' 's/\[\[Me\]\]/[[Your Name]]/g' {} + 2>/dev/null
+  fi
+done
 
-# Verify zero residue
-grep -rn '\[\[Me\]\]' --include='*.md' . && echo "REMAINING ABOVE" || echo "ALL CLEAN"
+# Verify zero residue in user scope
+grep -rn '\[\[Me\]\]' --include='*.md' BRAIN.md BRAIN_PROMPT.md "00. Inbox" "30. Permanent Notes" "20. Literature Notes" "60. Collections" "90. Settings/91. Templates" 2>/dev/null && echo "REMAINING ABOVE" || echo "USER-SCOPE CLEAN"
 ```
 
 > **Why a wikilink?** Author as `[[Your Name]]` means you can later create a People note `Your Name.md` in `60. Collections/61. People/`, and Obsidian's backlink panel will show every note you authored. This is a standard CMDS pattern.
+>
+> **Why not touch system files?** The system files (CLAUDE.md, AGENTS.md, CMDS.md, etc.) are authored by [[구요한]] (original CMDS author). Their `author:` field is **attribution**, not your personalization slot. Replacing it would falsely claim you wrote them.
 
 ### 1C. Fill in the operator profile in CMDS.md
 
@@ -259,7 +277,7 @@ inbox 가득:       /inbox → /connect       (capture)
 ### Manual path
 - [ ] Read CMDS.md and HQ.md (10 min)
 - [ ] Skim 🏛 CMDS Guide and CLAUDE.md (5 min)
-- [ ] Pick operator wikilink and run author batch-replace (5 min)
+- [ ] Pick operator wikilink and run **user-scope** author batch-replace (5 min) — system files retain `[[구요한]]`
 - [ ] Fill in `(Your Name)` profile section in CMDS.md (5 min)
 - [ ] Personalize BRAIN.md (5 min)
 - [ ] Try `/status` and `/connect` once each (5 min)

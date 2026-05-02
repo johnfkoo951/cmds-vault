@@ -39,8 +39,9 @@ This skill is **text-or-voice agnostic**. If the user is in voice mode (Gobi Des
 | Vault root reachable | `ls CMDS.md WELCOME.md` | both files exist | Run from inside cloned `cmds-vault/` folder |
 | Claude Code installed | `claude --version` | version string | `npm install -g @anthropic-ai/claude-code` |
 | `BRAIN.md` placeholder check | `grep -c '(your name)' BRAIN.md` | `1` (placeholder still there) | If `0`: BRAIN already personalized — confirm user wants to overwrite or skip to Step 5 |
-| `[[Me]]` placeholder count | `grep -rln '\[\[Me\]\]' --include='*.md' .` | non-zero (placeholders present) | If empty: WELCOME ritual already done — skip Step 2 |
+| `[[Me]]` placeholder in user-scope | `grep -rln '\[\[Me\]\]' --include='*.md' BRAIN.md "00. Inbox" "30. Permanent Notes" "20. Literature Notes" "60. Collections" "90. Settings/91. Templates" 2>/dev/null` | non-zero or empty (both OK) | This is the user-scope only. System files retain `[[구요한]]` and are NOT touched. |
 | `30. Permanent Notes/` empty | `ls "30. Permanent Notes/" \| grep -v gitkeep` | empty output | If has notes: confirm with user before adding stubs |
+| Vault template version | `cat VERSION` (or `grep template-version README.md`) | semver string (e.g. `1.0.0`) | If missing: pre-versioning starter — proceed but advise user to upgrade |
 
 If any check is unrecoverable, **report state to user and ask whether to skip that step or fix the prerequisite first**.
 
@@ -50,13 +51,17 @@ If any check is unrecoverable, **report state to user and ask whether to skip th
 
 > **Agent says**: "Hi — I'll help you turn this empty cmds-vault into one that knows your domain. About 15 minutes. I'll ask a handful of questions; you only need to answer the ones that feel relevant. The rest I'll leave blank and we'll come back later. Ready?"
 
-Then check if the user has already done the WELCOME author batch-replace:
+Then check if the user has already done the WELCOME author batch-replace **in user scope**:
 
 ```bash
-grep -rln '\[\[Me\]\]' --include='*.md' . 2>/dev/null | head -3
+# Check user-scope only (system files always retain [[구요한]] and are excluded)
+grep -rln '\[\[Me\]\]' --include='*.md' \
+  BRAIN.md BRAIN_PROMPT.md \
+  "00. Inbox" "30. Permanent Notes" "20. Literature Notes" "60. Collections" \
+  "90. Settings/91. Templates" 2>/dev/null | head -3
 ```
 
-- If output is empty → **skip Step 1·2**, go to Step 3
+- If output is empty → user has either already personalized or has no user-scope notes yet → **skip Step 1·2**, go to Step 3 (still confirm operator wikilink choice for naming new stubs in Step 5)
 - If output has files → continue to Step 1
 
 ### Step 1 — Pick operator wikilink (1 min)
@@ -70,26 +75,37 @@ Examples:
 
 Capture the choice. Confirm before proceeding.
 
-### Step 2 — Author batch-replace ritual (1 min)
+### Step 2 — User-scope author batch-replace ritual (1 min)
 
-Reuse [[WELCOME]] § "1B. Run the author batch-replace ritual". Either:
+⚠️ **Scope policy** (Jin's feedback, 2026-05-02):
+- **System files retain `author: [[구요한]]`** — upstream attribution. **Never replace.**
+- **User-scope only** gets `[[Me]]` → `[[<NAME>]]`: BRAIN.md, BRAIN_PROMPT.md, `00. Inbox/`, `30. Permanent Notes/`, `20. Literature Notes/`, `60. Collections/`, `90. Settings/91. Templates/`.
+
+Reuse [[WELCOME]] § "1B. Run the user-scope author batch-replace ritual". Either:
 
 **Option A (Claude Code in-context)**:
 ```
-Batch-replace [[Me]] with [[<name>]] across this vault, scope = all .md files.
-Use exact-string replace (case-sensitive). After replacing, verify zero residual [[Me]] and report counts per directory.
+Batch-replace [[Me]] with [[<NAME>]] in user-scope only — exclude system files.
+INCLUDE: BRAIN.md, BRAIN_PROMPT.md, "00. Inbox/", "30. Permanent Notes/", "20. Literature Notes/", "60. Collections/", "90. Settings/91. Templates/".
+EXCLUDE (system file authorship — leave [[구요한]]): vault root system .md files (CLAUDE/AGENTS/CMDS/Guide/HQ/WELCOME/README), .claude/, 90. Settings/94. Agent Settings/, 90. Settings/91. Skills/, 90. Settings/92. Prompts/.
+Note: Body-text [[Me]] inside EXCLUDED files (frontmatter examples) is intentionally a placeholder for future user notes — leave unchanged.
+Use exact-string replace (case-sensitive). Verify zero residual [[Me]] in INCLUDE scope only.
 ```
 
 **Option B (shell)**:
 ```bash
-find . -name '*.md' -type f -not -path './.git/*' \
-  -exec sed -i '' 's/\[\[Me\]\]/[[<NAME>]]/g' {} +
+# User-scope replacement only — system files untouched
+for target in BRAIN.md BRAIN_PROMPT.md "00. Inbox" "30. Permanent Notes" "20. Literature Notes" "60. Collections" "90. Settings/91. Templates"; do
+  if [ -e "$target" ]; then
+    find "$target" -name '*.md' -type f -exec sed -i '' 's/\[\[Me\]\]/[[<NAME>]]/g' {} + 2>/dev/null
+  fi
+done
 
-# Verify
-grep -rn '\[\[Me\]\]' --include='*.md' . && echo "REMAINING ABOVE" || echo "ALL CLEAN"
+# Verify zero residue in user scope (do NOT verify system files — they intentionally retain [[Me]] in body examples + [[구요한]] in frontmatter)
+grep -rn '\[\[Me\]\]' --include='*.md' BRAIN.md BRAIN_PROMPT.md "00. Inbox" "30. Permanent Notes" "20. Literature Notes" "60. Collections" "90. Settings/91. Templates" 2>/dev/null && echo "REMAINING ABOVE" || echo "USER-SCOPE CLEAN"
 ```
 
-Read the verification output to user. If "ALL CLEAN", proceed.
+Read the verification output to user. If "USER-SCOPE CLEAN", proceed. If `BRAIN.md` was empty/unchanged (system files exclude scope is correctly skipped), that's expected.
 
 ### Step 3 — Persona interview (5–8 min) ⭐ Core
 
@@ -256,7 +272,7 @@ Confirm with user before writing.
 
 Summarize what's done:
 
-- ✅ `[[Me]]` → `[[<NAME>]]` replaced across vault
+- ✅ `[[Me]]` → `[[<NAME>]]` replaced **in user-scope only** (system files retain `[[구요한]]` upstream attribution)
 - ✅ `BRAIN.md` filled with 7 areas of interest + How-I-Use + Pinned
 - ✅ `30. Permanent Notes/` has `<N>` theme stubs ready to grow
 - ✅ (optional) `CMDS.md` operator profile filled
@@ -275,9 +291,13 @@ Summarize what's done:
 If the user says "continue onboarding" / "온보딩 이어서" / "where was I", inspect state and resume:
 
 ```bash
-# Step 1·2 — author wikilink decided & batch-replaced?
-grep -rln '\[\[Me\]\]' --include='*.md' . 2>/dev/null > /tmp/me_residue
-[ -s /tmp/me_residue ] && echo "Step 2 NOT done — [[Me]] still present" || echo "Step 1·2 done"
+# Step 1·2 — author wikilink decided & batch-replaced in user scope?
+# IMPORTANT: scope is user-scope only — system files (CLAUDE/AGENTS/CMDS/Guide/HQ/WELCOME/README, .claude/, 90. Settings/{91. Skills,92. Prompts,94. Agent Settings}/) intentionally retain [[Me]] in body examples + [[구요한]] in frontmatter
+grep -rln '\[\[Me\]\]' --include='*.md' \
+  BRAIN.md BRAIN_PROMPT.md \
+  "00. Inbox" "30. Permanent Notes" "20. Literature Notes" "60. Collections" \
+  "90. Settings/91. Templates" 2>/dev/null > /tmp/me_residue
+[ -s /tmp/me_residue ] && echo "Step 2 NOT done — [[Me]] still in user scope" || echo "Step 1·2 done (user scope clean)"
 
 # Step 4 — BRAIN.md personalized?
 grep -q '(your name)' BRAIN.md && echo "Step 4 NOT done — placeholder still in BRAIN.md" || echo "Step 4 done"

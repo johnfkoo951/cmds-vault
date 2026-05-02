@@ -5,7 +5,7 @@ aliases:
   - guide
 description: "Operational standards guide for the CMDS vault. Defines the 7 required Properties, standard note types, file naming conventions, folder structure, citation styles, and template examples. Reference when creating new notes or validating existing ones."
 author:
-  - "[[Me]]"
+  - "[[구요한]]"
 date created: 2025-09-15T23:39
 date modified: 2026-04-28
 tags:
@@ -47,7 +47,9 @@ changelog:
 
 이 문서는 CMDS 볼트에서 노트를 만들고 관리할 때 따르는 **표준 규칙**을 정의합니다. 새 노트를 만들 때마다 여기를 참조하세요.
 
-> **저자 표기 규칙**: 시스템 파일과 새 노트의 `author` 필드는 기본적으로 `[[Me]]` placeholder로 시작합니다. 온보딩 후에 본인 이름으로 일괄 치환하세요. 자세한 절차는 [[WELCOME]] 참조.
+> **저자 표기 규칙 (두 가지 정체)**:
+> - **시스템 파일** (CLAUDE/AGENTS/CMDS/Guide/HQ/WELCOME/README, 슬래시 커맨드, rules, skills): `author: [[구요한]]` — upstream attribution. 변경하지 마세요.
+> - **사용자 작성 노트** (BRAIN.md, daily/permanent/literature notes, captures): `author: [[Me]]` placeholder → WELCOME ritual 또는 cmds-onboarding 스킬로 본인 이름으로 일괄 치환. 자세한 절차는 [[WELCOME]] 참조.
 
 ## Properties
 
@@ -61,7 +63,7 @@ type:           # 노트 유형 (아래 표준 type 참조)
 aliases: []     # 별칭 (배열 형식)
 description: "" # 1-2 문장 영어 요약 (LLM용, 아래 규칙 참조)
 author:
-  - "[[Me]]"  # 작성자 (wikilink 형식, 온보딩 후 본인 이름으로 일괄 치환)
+  - "[[Me]]"  # 사용자 노트 default placeholder (온보딩 후 본인 이름으로 일괄 치환). 시스템 파일은 [[구요한]] (영구 attribution).
 date created:   # 생성일 (YYYY-MM-DDTHH:mm:ss)
 date modified:  # 수정일 (YYYY-MM-DDTHH:mm:ss)
 tags: []        # 태그 (배열 형식)
@@ -89,7 +91,7 @@ tags: []        # 태그 (배열 형식)
 > ⚠️ **통일 규칙**: 모든 날짜는 ISO 8601 형식 (YYYY-MM-DD) 사용
 
 #### 작성자 및 관계
-- `author: [[Me]]` - 항상 wikilink 형식 사용 (온보딩 시 본인 이름으로 치환)
+- `author: [[Me]]` (사용자 노트) 또는 `author: [[구요한]]` (시스템 파일) — 항상 wikilink 형식. 사용자 노트 `[[Me]]`는 온보딩 시 본인 이름으로 치환.
 - `attendees: []` - 참석자 목록 (wikilink 배열)
 - `organization: [[조직명]]` - 조직 (wikilink)
 

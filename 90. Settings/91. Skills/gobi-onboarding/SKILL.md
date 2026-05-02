@@ -176,7 +176,7 @@ Write 3-5 lines. Don't aim for permanent — this is the **Connect** stage, fast
 
 **Why `00. Inbox/`?** The CMDS taxonomy treats inbox as the universal landing zone. See `.claude/rules/directory-structure.md` for the full layout.
 
-> **Note**: `author: [[Me]]` is the placeholder. After you finish onboarding, run the WELCOME ritual ([[WELCOME]]) to batch-replace `[[Me]]` with your actual name across all notes and system files.
+> **Note**: `author: [[Me]]` is the user-note placeholder. After you finish onboarding, run the WELCOME ritual ([[WELCOME]]) to batch-replace `[[Me]]` with your actual name in **user-scope only** (your notes, BRAIN.md, templates). System files retain `[[구요한]]` upstream attribution.
 
 ### Step 7 — First Brain Update (2 min) — *Share*
 

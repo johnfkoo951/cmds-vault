@@ -1,6 +1,15 @@
+---
+template-version: "1.0.0"
+template-released: 2026-05-02
+template-source: https://github.com/johnfkoo951/cmds-vault
+template-author: "[[구요한]]"
+---
+
 # cmds-vault
 
 > Class-ready Obsidian vault running [CMDS conventions](https://system.cmdspace.work) with [Gobi Desktop](https://gobi.app) integration baked in. Clone, open in Obsidian, start writing.
+
+> **Template version**: `1.0.0` (released 2026-05-02). To check what version you're running: `cat VERSION` or read `template-version` in this README's frontmatter. Upstream changes are tracked in [`CHANGELOG.md`](./CHANGELOG.md). Authoritative version source: git tags on this repo.
 
 ## What this is
 
@@ -25,8 +34,8 @@ Open `~/Documents/cmds-vault` in Obsidian via **Open folder as vault**.
 
 Before personalizing, open `WELCOME.md` in Obsidian. It walks through:
 
-- The 5 system files (CLAUDE / AGENTS / CMDS / 🏛 CMDS Guide / 🏛 HQ) and what each one is for
-- How to batch-replace the `[[Me]]` placeholder with your own name (one Claude Code session)
+- The 5 system files (CLAUDE / AGENTS / CMDS / 🏛 CMDS Guide / 🏛 HQ) and what each one is for — these retain `author: "[[구요한]]"` (upstream attribution, do not change)
+- How to batch-replace the `[[Me]]` placeholder with your own name in **user-scope only** (your notes, BRAIN.md, templates) — system files stay attributed to the original author
 - A 5-minute first Connect → Merge → Develop → Share cycle
 - Where to find the slash commands
 

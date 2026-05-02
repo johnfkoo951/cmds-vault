@@ -5,7 +5,7 @@ aliases:
   - CC System File
 description: "Claude Code specific technical implementation guide for the CMDS starter vault. Defines file creation/editing rules, YAML/Markdown indentation rules, vault commands, and code output paths. Reference when Claude Code is writing or modifying code in this vault."
 author:
-  - "[[Me]]"
+  - "[[구요한]]"
 date created: 2025-09-27T17:53
 date modified: 2026-04-28
 tags:
@@ -99,7 +99,9 @@ This is a **CMDS-conventions starter vault** for personal knowledge work. It imp
 
 The CMDS conventions originate from 구요한 (Yohan Koo)'s 10,000+ note vault — see canonical reference at [system.cmdspace.work](https://system.cmdspace.work). This starter is the class-friendly graft of those conventions plus optional Gobi Desktop integration.
 
-> **Personal context**: The `author` field is initialized to `[[Me]]` placeholder. Run the WELCOME ritual ([[WELCOME]]) once to batch-replace it with your own name across all system files and templates.
+> **Personal context (two distinct authorship identities)**:
+> - **System files** (CLAUDE/AGENTS/CMDS/Guide/HQ/WELCOME/README, slash commands, rules, skills): `author: [[구요한]]` — upstream attribution. **Do not change.**
+> - **User-created notes** (BRAIN.md, daily/permanent/literature notes, captures, your templates): `author: [[Me]]` is a placeholder. Run the WELCOME ritual ([[WELCOME]]) once to batch-replace `[[Me]]` with your name in **user-scope only**. The cmds-onboarding skill automates this with the same scope.
 
 ## 💻 Working Environments
 
@@ -371,7 +373,7 @@ Common types in a CMDS vault:
 	- `type:` - Note type/category (see types above)
 	- `aliases:` - Alternative names (array format)
 	- `description:` - English 1-2 sentence summary (double-quoted)
-	- `author:` - Author information (array format with quoted wikilinks; default `[[Me]]` until WELCOME ritual run)
+	- `author:` - Author information (array format with quoted wikilinks; user-note default is `[[Me]]` placeholder until WELCOME ritual run. System files always `[[구요한]]`)
 	- `date created:` - Creation timestamp (YYYY-MM-DD format)
 	- `date modified:` - Last modification (YYYY-MM-DD format)
 	- `tags:` - Relevant tags (array format)
@@ -517,7 +519,7 @@ find . -name "*.md" -mtime -7 -type f | head -20
 2. **Required Properties**: Every note needs 7 fields: type, aliases, **description** (English, double-quoted, LLM hint), author, date created, date modified, tags
 3. **Properties v2.0 Standards**:
 	- Dates: ISO 8601 (YYYY-MM-DD)
-	- Author: `[[Me]]` placeholder until WELCOME ritual; thereafter `[[Your Name]]` wikilink
+	- Author (your notes): `[[Me]]` placeholder until WELCOME ritual; thereafter `[[Your Name]]` wikilink. Author (system files): always `[[구요한]]`.
 	- Status: Use standard 5 values only
 	- CamelCase: myRate, totalPage (⚠️ `rating` 사용 금지 → 반드시 `myRate`)
 	- **description**: English only, 1-2 sentences, double-quoted, skill-description style
