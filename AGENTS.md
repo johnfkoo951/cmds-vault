@@ -5,7 +5,7 @@ aliases:
   - Gemini Codex Guide
 description: "Technical guide for non-Claude AI coding agents (Gemini CLI, Codex, Cursor, Windsurf) operating in this CMDS starter vault. Simplified and portable version of CLAUDE.md. Reference when any AI agent other than Claude Code is operating in the vault."
 author:
-  - "[[Me]]"
+  - "[[구요한]]"
 date created: 2026-01-02T16:30
 date modified: 2026-04-28
 tags:
@@ -55,7 +55,9 @@ This is a **CMDS-conventions starter vault** for personal knowledge work. It imp
 
 The CMDS conventions originate from 구요한 (Yohan Koo) — see canonical reference at [system.cmdspace.work](https://system.cmdspace.work). This starter is a class-friendly graft of those conventions plus optional Gobi Desktop integration.
 
-> **Author placeholder**: System files use `[[Me]]` as a placeholder for the vault operator. Run the WELCOME ritual ([[WELCOME]]) once to batch-replace it with your actual name.
+> **Author convention (two distinct identities)**:
+> - **System files** (CLAUDE/AGENTS/CMDS/Guide/HQ/WELCOME/README, slash commands, rules, skills): `author: [[구요한]]` — upstream attribution to the original CMDS author. **Do not change.**
+> - **User-created notes** (BRAIN.md, daily/permanent/literature notes, captures): `author: [[Me]]` is a placeholder. Run the WELCOME ritual ([[WELCOME]]) once to batch-replace `[[Me]]` with your actual name in **user-scope only**.
 
 ### Working Environments & Sync (선택)
 
@@ -97,7 +99,7 @@ The CMDS conventions originate from 구요한 (Yohan Koo) — see canonical refe
 > 4. **필수 프로퍼티 7개**: type, aliases, **description** (English, 1-2 sentences for LLMs), author, date created, date modified, tags
 > 5. **`description` 은 항상 double-quote `"..."`**: 안에 `: ` 또는 ` #` 들어가면 YAML plain scalar 파서 깨짐 → Obsidian Properties 렌더 실패
 > 6. **날짜 포맷**: ISO 8601 (YYYY-MM-DD)
-> 7. **Author**: `[[Me]]` placeholder until WELCOME ritual replaces it with the operator's name
+> 7. **Author**: System files = `[[구요한]]` (upstream attribution). User-created notes = `[[Me]]` placeholder → operator's name during WELCOME ritual.
 
 ---
 

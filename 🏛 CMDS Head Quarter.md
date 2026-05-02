@@ -5,7 +5,7 @@ aliases:
   - Head Quarter
 description: "Central navigation hub for the CMDS vault. Provides links to 91 sub-categories across 9 main categories (100-900), a CMDS Process summary, vault folder structure (00-90), and working environment placeholder. Reference when navigating the vault or locating a specific category."
 author:
-  - "[[Me]]"
+  - "[[구요한]]"
 date created: 2025-10-23T01:59
 date modified: 2026-04-28
 tags:
@@ -31,6 +31,13 @@ changelog:
 ---
 
 > **🔄 Last Updated: 2026-04-28** | Upstream reference: [system.cmdspace.work](https://system.cmdspace.work)
+
+<!-- focus-lens-start -->
+<!-- This section is auto-managed by the cmds-maintenance skill (90. Settings/91. Skills/cmds-maintenance/SKILL.md).
+     Run "cmds maintenance" or "focus lens refresh" in Claude Code to refresh.
+     To disable, delete everything between focus-lens-start and focus-lens-end (including markers).
+     Until first refresh, this lens is empty — the full 91-category navigation continues below. -->
+<!-- focus-lens-end -->
 
 Links:: [[🏛 CMDS Head Quarter]] | [[🏛 CMDS Guide]]
 
