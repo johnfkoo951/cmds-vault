@@ -18,6 +18,35 @@ The authoritative version source is the git tag (`git tag --list`) on this repo.
 
 ---
 
+## [1.1.0] — 2026-05-05
+
+Driven by 2026-05 코호트 Session 2.5 ("LLMWiki Deep Dive") preparation. Adds Karpathy's LLM Wiki pattern to the vault as a sister skill alongside `gobi-cli`, `cmds-onboarding`, `cmds-maintenance`, `daily-book-update`.
+
+### Added
+
+- **`cmds-llm-wiki` skill** at `90. Settings/91. Skills/cmds-llm-wiki/`:
+	- 4 slash commands: `/cmds-llm-wiki-ingest`, `/cmds-llm-wiki-query`, `/cmds-llm-wiki-lint`, `/cmds-llm-wiki-status`
+	- Builds a self-contained `LLMWiki/` folder (Sources / Wiki / Queries / index / log / Core Context) inside the host vault — does not entangle with existing CMDS folders (`30. Permanent Notes/`, `60. Collections/`, etc.)
+	- Schema-compatible with [`cmds-llm-wiki v1.3.0`](https://github.com/johnfkoo951/cmds-llm-wiki) (matching frontmatter keys: `type`, `collectionPurpose`, `confidence`, `layer`, etc., and matching naming: `Sources/YYYY-MM-DD-{slug}.md`, `Wiki/{Topic}.md`, `Queries/Query - {slug}.md`)
+	- Mandatory collection-purpose gate ("미래의 나에게 보내는 편지") on every ingest, bound to the user's reuse axes in `Core Context.md`
+	- Targets 5–10 wiki pages per ingest (lightweight cap; upstream targets 10–15)
+	- Stripped (graduation-only): mothership cross-linking, qmd vector search, Web Clipper integration, Book Ingest progressive stubs, PostToolUse hooks
+- **Templates** under `90. Settings/91. Skills/cmds-llm-wiki/templates/`: `Core Context.md`, `index.md`, `raw-source.md`, `wiki-page.md` — first-run skeletons used by the bootstrap flow inside `/cmds-llm-wiki-status`
+
+### Changed (post-release iteration based on first real-usage walkthrough)
+
+- **`/cmds-llm-wiki-status` is now the canonical bootstrap command.** When `LLMWiki/` doesn't exist, status creates the skeleton AND **smart-seeds `Core Context.md`** by sampling 5–15 notes from existing CMDS-style folders (`30. Permanent Notes/`, `Topics/`, `60. Collections/`, `20. Literature Notes/`, `Roundup/`) — inferring §1 (identity) and §2 (5–9 reuse axes) from real content. Eliminates the "fill the blank template before you can ingest" friction.
+- **`Core Context.md` `status:` field gains a `seeded` value** alongside `template` / `active`. Auto-seeded contexts land as `seeded` so `/lint` and the user know it needs review before being treated as authoritative.
+- **`/cmds-llm-wiki-ingest` no longer auto-bootstraps** — when `LLMWiki/` is missing it cleanly redirects the user to run `/cmds-llm-wiki-status` first. Keeps ingest focused on ingestion, not setup.
+- **Install docs add `/reload-plugins`** as the post-install step (faster than restarting Claude Code). Restart remains the documented fallback.
+- **Lecture (Session 2.5) hands-on block** updated to match: shows `/reload-plugins`, explains the `/status`-driven Core Context auto-seed, and demonstrates first ingest with a file path (`{your_first_file}`) rather than a URL — file paths are more reliable for first-time users.
+
+### Graduation path
+
+When the in-vault wiki outgrows the host vault (~100 sources, ~400K words), `mv LLMWiki/ ~/my-llm-wiki` and layer the full `cmds-llm-wiki v1.3.0` template on top — no rewrite needed because schema matches.
+
+---
+
 ## [1.0.0] — 2026-05-02
 
 First properly versioned release. Driven by feedback from [[김진영]] (Jin) after running `cmds-onboarding` against a fresh clone (see Cohort 1기 5/2 강의 직전 피드백).
