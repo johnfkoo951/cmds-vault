@@ -41,9 +41,30 @@ Driven by 2026-05 코호트 Session 2.5 ("LLMWiki Deep Dive") preparation. Adds 
 - **Install docs add `/reload-plugins`** as the post-install step (faster than restarting Claude Code). Restart remains the documented fallback.
 - **Lecture (Session 2.5) hands-on block** updated to match: shows `/reload-plugins`, explains the `/status`-driven Core Context auto-seed, and demonstrates first ingest with a file path (`{your_first_file}`) rather than a URL — file paths are more reliable for first-time users.
 
+### Changed v0.2 — CMDS vault integration (minimize duplication with host vault)
+
+Driven by user feedback after running the v0.1 walkthrough end-to-end: the wiki was duplicating content the vault already had (sources stored twice once in Inbox + once in `LLMWiki/Sources/`; Core Context snapshotting BRAIN/HQ/CMDS content that was already canonical elsewhere). v0.2 integrates with CMDS conventions to fix this.
+
+- **Sources moved from `{llmWikiPath}/Sources/` to CMDS-canonical `10. Raw Sources/{NN. category}/`** (`11. Articles`, `12. Papers`, `13. Books`, `14. Transcripts`, `15. Clippings`). Matches the upstream `cmds-llm-wiki v1.3.0` layout.
+- **Sources arriving via `00. Inbox/` are MOVED, not copied** — single source of truth. After verbatim-preservation in `10. Raw Sources/`, the original Inbox file is deleted to prevent re-ingestion on next `/inbox` scan.
+- **`Core Context.md` is now a pointer file** instead of a content snapshot. §1 → `[[BRAIN]]`, §2 → `[[🏛 CMDS Head Quarter#Current Focus Areas]]` + `[[CMDS]]` categories, §3 → `[[CMDS]]`, §4 → `[[CMDS]]` + `[[🏛 CMDS Guide]]`. Skill commands dereference at runtime — zero drift, zero snapshot maintenance. Inline fallback is preserved for non-CMDS vaults.
+- **LLMWiki location is configurable** — first `/cmds-llm-wiki-status` asks where to put it (default `LLMWiki/`, `90. Settings/LLMWiki/`, or custom). Choice is persisted to `AGENTS.md` frontmatter as `llmWikiPath: "..."` and resolved by every subsequent command.
+- **Skill version bumped to 0.2.0**, status `integrated`. Frontmatter `sourcesPath: "10. Raw Sources"` added to Core Context for explicit configuration.
+- **`/cmds-llm-wiki-lint`** gains an Inbox-residue check that flags files in `00. Inbox/` already present in `10. Raw Sources/` (i.e., MOVE failed or was skipped).
+- **Future work captured in SKILL.md** (deferred, not in v0.2): drop `index.md` for HQ Focus Lens; reuse `60. Collections/61. People/` for entities; add `CMDS:` frontmatter to wiki pages; drop `log.md` to BRAIN activity; full CMDS-native reframe; non-CMDS vault config fallback.
+
 ### Graduation path
 
-When the in-vault wiki outgrows the host vault (~100 sources, ~400K words), `mv LLMWiki/ ~/my-llm-wiki` and layer the full `cmds-llm-wiki v1.3.0` template on top — no rewrite needed because schema matches.
+When the in-vault wiki outgrows the host vault (~100 sources, ~400K words):
+
+```bash
+mv "{your-vault}/{llmWikiPath}" ~/my-llm-wiki
+mv "{your-vault}/10. Raw Sources" ~/my-llm-wiki/
+```
+
+Then layer the full `cmds-llm-wiki v1.3.0` template on top — no content rewrite (schema matches). Core Context's pointer targets won't resolve in the new vault, so either copy `BRAIN.md`/`HQ`/`CMDS.md` in or convert Core Context back to inline content (the template's §1/§2 fallback shows the inline shape).
+
+The CMDS-integrated layout is two `mv` commands instead of one (price for in-vault dedup). Net win in practice: the wiki uses your vault's existing structure rather than parallel duplication.
 
 ---
 

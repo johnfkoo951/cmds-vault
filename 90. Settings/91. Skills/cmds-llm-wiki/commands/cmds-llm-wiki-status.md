@@ -1,143 +1,172 @@
 ---
-description: Bootstrap LLMWiki on first run (smart-seeding Core Context from existing CMDS-style notes if present), then show a one-screen overview — counts, recent activity, top-linked pages, Core Context freshness.
-allowed-tools: Read, Write, Glob, Grep, Bash
+description: Bootstrap LLMWiki on first run (configurable location persisted to AGENTS.md, pointer-based Core Context, sources land in 10. Raw Sources/), then show a one-screen overview — counts, recent activity, top-linked pages, Core Context freshness.
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 ---
 
 # /cmds-llm-wiki-status — Bootstrap + Status
 
-This command is the **canonical first command** in any vault. On first run it bootstraps `LLMWiki/` and seeds `Core Context.md` from existing CMDS-style knowledge folders (so users don't fill a blank template). After bootstrap it's a fast read-only snapshot.
+This command is the **canonical first command** in any vault. On first run it:
+1. Asks where to put the `LLMWiki/` folder, persists the choice to `AGENTS.md` frontmatter (`llmWikiPath:`).
+2. Bootstraps `{llmWikiPath}/{Wiki,Queries}` + `index.md` + `log.md`. **No `Sources/` subfolder** — raw sources live in CMDS-canonical `10. Raw Sources/`.
+3. Seeds `Core Context.md` as a **pointer file** to canonical CMDS files (`BRAIN.md`, `🏛 CMDS Head Quarter.md`, `CMDS.md`) — minimizing duplication. Falls back to inline content for non-CMDS vaults.
+
+After bootstrap it's a fast read-only snapshot.
 
 ## Process
 
-### Step 1: Existence check
+### Step 1: Resolve `llmWikiPath`
+
+Read `AGENTS.md` (or `CLAUDE.md`) at the vault root. Look for `llmWikiPath:` in frontmatter.
+
+- If present → use it (e.g., `LLMWiki`, `90. Settings/LLMWiki`, custom). Skip to **Step 2** with that path.
+- If missing AND `LLMWiki/` already exists at vault root → use `LLMWiki` (legacy default), skip to Step 2.
+- If missing AND no `LLMWiki/` exists → **first-run path prompt**:
+  > "Where should I create the LLMWiki folder? Options:
+  >   1. `LLMWiki/` (vault root — default, easiest to graduate later)
+  >   2. `90. Settings/LLMWiki/` (lives with other settings)
+  >   3. Custom path
+  > Reply with 1 / 2 / a custom path."
+- After the user answers, **persist to `AGENTS.md` frontmatter**: add (or update) `llmWikiPath: "{chosen path}"`. Use Edit with a precise frontmatter block match.
+- If `AGENTS.md` doesn't exist (non-CMDS vault), write to `CLAUDE.md` instead. If neither exists, fall back to `LLMWiki/` default and tell the user the choice wasn't persisted.
+
+From here forward, `{llmWikiPath}` = the resolved path.
+
+### Step 2: Existence check
 
 ```bash
-ls LLMWiki 2>/dev/null
+ls "{llmWikiPath}" 2>/dev/null
 ```
 
-- If `LLMWiki/` exists → skip to **Step 5: Status output**.
-- If missing → run **Step 2: Bootstrap** first, then continue.
+- If exists → skip to **Step 6: Status output**.
+- If missing → run **Step 3: Bootstrap** then **Step 4: Core Context seed**, then continue.
 
-### Step 2: Bootstrap LLMWiki/ skeleton
+### Step 3: Bootstrap `{llmWikiPath}/` skeleton
 
-Create the folder structure and copy the index/log templates from this skill's `templates/`:
+Create the folder structure (no `Sources/` subfolder — sources go to `10. Raw Sources/`):
 
 ```bash
-mkdir -p LLMWiki/Sources LLMWiki/Wiki LLMWiki/Queries
+mkdir -p "{llmWikiPath}/Wiki" "{llmWikiPath}/Queries"
 ```
 
-Copy:
-- `templates/index.md` → `LLMWiki/index.md` (substitute `{your-name}` and `{YYYY-MM-DD}` placeholders).
-- Create `LLMWiki/log.md` with minimal frontmatter (`type: log`, today's date) and an empty body.
+Copy templates:
+- `templates/index.md` → `{llmWikiPath}/index.md` (substitute `{your-name}` and `{YYYY-MM-DD}` placeholders).
+- Create `{llmWikiPath}/log.md` with minimal frontmatter (`type: log`, today's date) and an empty body.
 
-### Step 3: Smart Core Context seed
+### Step 4: Smart Core Context seed (pointer-based for CMDS vaults)
 
-Scan the host vault (current working directory) for CMDS-style knowledge folders, in this priority order:
-
-1. `30. Permanent Notes/` (CMDS canonical)
-2. `Topics/` (GOBI / generic PKM)
-3. `60. Collections/`
-4. `20. Literature Notes/`
-5. `Roundup/` (GOBI weekly summaries)
+Read these canonical CMDS files at vault root:
 
 ```
-Glob "30. Permanent Notes/**/*.md"
-Glob "Topics/**/*.md"
-Glob "60. Collections/**/*.md"
-Glob "20. Literature Notes/**/*.md"
-Glob "Roundup/**/*.md"
+Read("BRAIN.md")
+Read("🏛 CMDS Head Quarter.md")
+Read("CMDS.md")
+Read("🏛 CMDS Guide.md")
 ```
 
-**If at least one folder exists with ≥10 notes**, seed Core Context:
+**If at least `BRAIN.md` + (`🏛 CMDS Head Quarter.md` OR `CMDS.md`) exist** → CMDS-style vault detected:
 
-1. Pick the highest-priority folder that has content. Sample **5–15 notes** — most recently modified, sampled across subfolders if the folder has them.
-2. Read those notes and extract:
-   - **User identity hints**: `author:` / `authors:` in frontmatter (most common non-`Claude` author = the user); `BRAIN.md` at vault root if present (operator profile); recurring `[[Me]]` references.
-   - **Recurring topic tags** (frontmatter `tags:` patterns + folder names): these become candidate reuse axes.
-   - **Topic clusters**: top-level folder names within `30. Permanent Notes/` are typically already category groupings (e.g., `33. Essay/`, `35. Research/`). Promote subfolder names that fit "what is this knowledge for?" into axes.
-3. Compose 5–9 reuse axes from the inferred clusters. Examples that should emerge naturally for a CMDS vault: 학술 연구, 저술·출판, 강의·강연, 컨설팅, 제품 개발, 개인 에세이, 커뮤니티 교육.
-4. Write a draft `LLMWiki/Core Context.md` with §1 (identity) and §2 (reuse axes) populated from real content. Use the template at `templates/Core Context.md` as the structural skeleton, but replace placeholders with actual inferred values.
-5. **Set frontmatter `status: seeded`** (not `template`, not `active`). This signals to `/lint` and the user that the seed needs review.
-6. Set `snapshot_date: {today}`, `date created` / `date modified` to today, and `author: "[[{inferred-user}]]"` (or `[[Me]]` if identity unclear).
+1. Copy `templates/Core Context.md` to `{llmWikiPath}/Core Context.md` verbatim — it's already pointer-shaped (links into BRAIN / HQ / CMDS at runtime).
+2. Substitute placeholders: `{your-name}` from `BRAIN.md` frontmatter `author:` (or fallback `[[Me]]`), `{YYYY-MM-DD}` to today.
+3. Set frontmatter `status: seeded` and `sourcesPath: "10. Raw Sources"`.
+4. Optionally inline a 2–3 line "Active focus snapshot" under §2 by reading `🏛 CMDS Head Quarter.md`'s "Current Focus Areas" section — this gives a static cache for offline reference, but the link remains the source of truth.
 
-**If no folder has ≥10 notes** (empty or new vault):
-- Copy `templates/Core Context.md` verbatim to `LLMWiki/Core Context.md` with `status: template` (placeholder values intact).
-- Skip §1/§2 inference.
+**If canonical files are absent** (non-CMDS vault) → fall back to inline seed:
 
-### Step 4: Bootstrap report
+1. Sample 5–15 notes from existing folders in priority order: `30. Permanent Notes/`, `Topics/`, `60. Collections/`, `20. Literature Notes/`, `Roundup/`.
+2. Infer §1 (identity from frontmatter `author:` patterns) and §2 (5–9 reuse axes from recurring tags + folder names).
+3. Replace the §1/§2 pointer text in the template with the inferred inline content.
+4. Set `status: seeded`.
 
-After seeding, show the user:
+**If neither path applies** (empty vault, no canonical files, no populated folders): copy template verbatim with `status: template` (placeholders intact).
+
+### Step 5: Bootstrap report
+
+Show the user:
 
 ```
 🌱 Bootstrap complete.
 
+Configured:
+  llmWikiPath: {chosen path}    ← persisted to AGENTS.md frontmatter
+  sourcesPath: 10. Raw Sources  ← CMDS canonical (created on first ingest)
+
 Created:
-  LLMWiki/
-  ├── Sources/, Wiki/, Queries/  (empty)
+  {llmWikiPath}/
+  ├── Wiki/, Queries/  (empty)
   ├── index.md, log.md
-  └── Core Context.md  ← {seeded from N notes in `{folder}` | unfilled template}
+  └── Core Context.md  ← {pointer-seeded → BRAIN/HQ/CMDS | inline-seeded from N notes | unfilled template}
 
-{If seeded:}
-Inferred reuse axes (status: seeded — please review):
+{If pointer-seeded:}
+Core Context now points to:
+  §1 Who → [[BRAIN]]
+  §2 Why → [[🏛 CMDS Head Quarter#Current Focus Areas]] + [[CMDS]] categories
+  §3 What → [[CMDS]]
+  §4 How → [[CMDS]] + [[🏛 CMDS Guide]]
+→ Review the linked files reflect your current focus, then flip Core Context `status: seeded` → `status: active`.
+
+{If inline-seeded:}
+Inferred reuse axes from N notes in `{folder}` (status: seeded):
   1. {axis 1}
-  2. {axis 2}
-  3. ...
+  2. ...
+→ Open Core Context.md, refine §2, flip `status: seeded` → `status: active`.
 
-→ Open LLMWiki/Core Context.md, refine §1/§2, then flip `status: seeded` → `status: active`.
+{If template:}
+Empty vault — Core Context left as template.
+→ Open Core Context.md and fill §1/§2 manually, flip `status: template` → `status: active`.
 
-{If not seeded:}
-Your vault doesn't have populated CMDS-style folders yet (30. Permanent Notes/, Topics/, ...).
-→ Open LLMWiki/Core Context.md and fill §1/§2 manually (5–9 reuse axes), then flip `status: template` → `status: active`.
-
-Next: /cmds-llm-wiki-ingest <file or URL>
+Next: /cmds-llm-wiki-ingest <file path or URL>
+  - Local files in 00. Inbox/ get MOVED to 10. Raw Sources/{NN. category}/
+  - URLs get fetched and saved fresh to 10. Raw Sources/{NN. category}/
 ```
 
-Then continue to Step 5.
+Then continue to Step 6.
 
-### Step 5: Status output (counts)
+### Step 6: Status output (counts)
+
+Path resolution: read `AGENTS.md` → `llmWikiPath`; read `Core Context.md` frontmatter → `sourcesPath` (default `10. Raw Sources`).
 
 ```
-Glob "LLMWiki/Sources/*.md"           → source count
-Glob "LLMWiki/Wiki/*.md"              → wiki page count
-Grep "^layer: concepts" path="LLMWiki/Wiki/" → concepts count
-Grep "^layer: entities" path="LLMWiki/Wiki/" → entities count
-Grep "^layer: guides"   path="LLMWiki/Wiki/" → guides count
-Grep "^layer: maps"     path="LLMWiki/Wiki/" → maps count
-Glob "LLMWiki/Queries/*.md"           → query count
+Glob "{sourcesPath}/**/*.md"            → source count (filtered to type: raw-source)
+Glob "{llmWikiPath}/Wiki/*.md"          → wiki page count
+Grep "^layer: concepts" path="{llmWikiPath}/Wiki/" → concepts count
+Grep "^layer: entities" path="{llmWikiPath}/Wiki/" → entities count
+Grep "^layer: guides"   path="{llmWikiPath}/Wiki/" → guides count
+Grep "^layer: maps"     path="{llmWikiPath}/Wiki/" → maps count
+Glob "{llmWikiPath}/Queries/*.md"       → query count
 ```
 
-Read `LLMWiki/log.md` and pull the last 5 entries (each starts with `## [YYYY-MM-DD]`).
+Read `{llmWikiPath}/log.md` and pull the last 5 entries (each starts with `## [YYYY-MM-DD]`).
 
 Top-linked pages: for each `Wiki/` page, count inbound `[[links]]` from other `Wiki/` pages. Show top 5.
 
 Coverage spot-checks:
 ```
-Grep "^collectionPurpose:" path="LLMWiki/Sources/"  → sources with purpose / total
-Grep "^confidence: high"   path="LLMWiki/Wiki/"     → high-confidence pages
+Grep "^collectionPurpose:" path="{sourcesPath}/" (filtered to type: raw-source) → coverage
+Grep "^confidence: high"   path="{llmWikiPath}/Wiki/"                            → high-confidence pages
 ```
 
-Read `LLMWiki/Core Context.md` frontmatter `snapshot_date` (or fall back to `date modified`).
+Read `{llmWikiPath}/Core Context.md` frontmatter `snapshot_date` (or fall back to `date modified`).
 
 ## Output
 
 ```
 📊 LLMWiki Status
 ─────────────────────────────────
-Sources:   {n}      (collectionPurpose: {n}/{N} = {pct}%)
-Wiki:      {n}      (Concepts: {n}, Entities: {n}, Guides: {n}, Maps: {n})
-Queries:   {n}      (filed-back ratio: {q}/{w} = {pct}%)
+Path:      {llmWikiPath}              (sources at: {sourcesPath})
+Sources:   {n}    (collectionPurpose: {n}/{N} = {pct}%)
+Wiki:      {n}    (Concepts: {n}, Entities: {n}, Guides: {n}, Maps: {n})
+Queries:   {n}    (filed-back ratio: {q}/{w} = {pct}%)
 
 🧭 Core Context: snapshot {date} ({n} days ago) — {fresh | stale | seeded — please review}
+   Mode: {pointer (links to BRAIN/HQ/CMDS) | inline (seeded from N notes) | template}
 
 📥 Recent (last 5)
   - {date} ingest | {title}
-  - {date} query  | {short q}
   - ...
 
 🔗 Top-linked pages
-  1. [[Page A]]    ({n} inbound)
-  2. [[Page B]]    ({n} inbound)
-  3. ...
+  1. [[Page A]]  ({n} inbound)
+  ...
 
 🩺 Quick health
   - Orphans (run /cmds-llm-wiki-lint for details)
@@ -146,12 +175,12 @@ Queries:   {n}      (filed-back ratio: {q}/{w} = {pct}%)
 Tip: run /cmds-llm-wiki-lint weekly · /cmds-llm-wiki-ingest to feed · /cmds-llm-wiki-query to compound.
 ```
 
-On a freshly bootstrapped vault all counts are zero — show "—" instead of "NaN%" for ratios. The Bootstrap report from Step 4 carries the actionable info.
+On a freshly bootstrapped vault all counts are zero — show "—" instead of "NaN%". The Bootstrap report from Step 5 carries the actionable info.
 
 ## Failure modes
 
-- **Auto-promoting `seeded` to `active`** → never. The user must review the inferred axes; that's the whole point of the gate.
-- **Sampling too many notes** → keep to 5–15. More doesn't improve axis quality and slows bootstrap.
-- **Inventing axes the vault doesn't support** → if you can't find recurring patterns, show fewer axes (3–4) and tell the user the seed is sparse, not bogus.
-- **Running expensive scans on every status call** → seed only on the bootstrap path. After `LLMWiki/` exists, status stays read-only and fast.
-- **Showing percentages with division by zero** → guard against empty wiki on first run; show "—" instead of "NaN%".
+- **Persisting `llmWikiPath` to the wrong file** → only write to `AGENTS.md` (or `CLAUDE.md` fallback) at vault root. Don't touch system files in `cmds-system-files/`.
+- **Auto-promoting `seeded` to `active`** → never. The user must read the pointer targets and confirm.
+- **Re-bootstrapping a vault that already has `LLMWiki/`** → don't. Step 2 short-circuits to status output. Re-bootstrap is a manual `rm -r` + re-run.
+- **Sampling too many notes during inline seed** → keep to 5–15.
+- **Counting sources from `{sourcesPath}` when other tools also write there** → filter to frontmatter `type: raw-source` to avoid counting unrelated files.

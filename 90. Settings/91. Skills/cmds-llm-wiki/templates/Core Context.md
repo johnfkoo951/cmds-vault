@@ -3,7 +3,7 @@ type: core-context
 aliases:
   - User Context
   - 핵심 맥락
-description: User identity, reuse axes, and philosophy. LLMWiki commands MUST read this BEFORE every ingest/query/lint so operations align with the user's purpose, not just structure. Fill in placeholders before running the first ingest.
+description: Pointer-only Core Context. Identity, reuse axes, frameworks, and philosophy live in canonical CMDS files (BRAIN, HQ, CMDS) and are dereferenced at command-time. Skill-local operational rules live in §5 below.
 author:
   - "[[{your-name}]]"
 date created: {YYYY-MM-DD}
@@ -12,115 +12,105 @@ tags:
   - system
   - llm-wiki
   - core-context
-version: "1.0"
+version: "2.0"
 snapshot_date: {YYYY-MM-DD}
-status: template      # template (unfilled) | seeded (auto-seeded by /cmds-llm-wiki-status, awaiting review) | active (user-reviewed)
+status: template      # template (unfilled) | seeded (auto-pointed by /cmds-llm-wiki-status, awaiting review) | active (user-confirmed)
+sourcesPath: "10. Raw Sources"   # CMDS-canonical raw-sources home; sources are MOVED here from 00. Inbox/ on ingest
 ---
 
-# 🧭 Core Context — LLMWiki 사용자 맥락
+# 🧭 Core Context — LLMWiki 사용자 맥락 (Pointer)
 
-> **템플릿 노트**입니다. 아래 placeholder 를 본인 맥락으로 채운 뒤 frontmatter `status:` 를 `active` 로 바꾸세요.
+> **Pointer file**, not a snapshot. Identity / reuse axes / frameworks / philosophy live in canonical CMDS files; this note tells the skill **where to read them from** so we don't duplicate content.
 >
-> 채우는 방법:
-> 1. **자동 시드 (권장)** — `/cmds-llm-wiki-status` 가 본인 vault 의 기존 노트 (`30. Permanent Notes/`, `Topics/` 등) 를 읽고 §1/§2 를 자동으로 채워줍니다. 그 결과는 `status: seeded` 로 표시됨 — 검토 후 `active` 로.
-> 2. **직접 작성** — 자기소개·목적·철학을 아래 섹션에 직접 입력
-> 3. **기존 기록에서 추출** — 이미 블로그·노트가 있다면, 그 글을 읽고 이 노트를 채워달라고 LLM 에게 요청
-> 4. **STT 인터뷰** — 마이크로 자기소개 녹음 → LLM 에게 정리 요청
+> Bootstrapped automatically by `/cmds-llm-wiki-status`. Review the pointers below, adjust as needed, then flip `status: seeded` → `status: active`.
+>
+> If your vault is **not** CMDS-style (no `BRAIN.md`, `🏛 CMDS Head Quarter.md`, `CMDS.md`), the bootstrap falls back to inline content in §1/§2 — same shape as v1.0 of this template.
 
 ---
 
-## 1. Who — 사용자 정체성
+## 1. Who → see [[BRAIN]]
 
+`BRAIN.md` at vault root holds the operator profile (name, role, focus, continuity statement). LLMWiki commands `Read("BRAIN.md")` once per session to ground identity.
+
+If `BRAIN.md` doesn't exist, fill in here:
 - **이름**: `{Your Name}`
 - **직함 / 역할**: `{your current role(s)}`
 - **전문 분야**: `{your domain(s)}`
-- **주 활동 영역**: `{your working domain}`
-
-### 연속성 선언 (Continuity Statement)
-
-> "{현재 지식 관리 활동이 과거의 어떤 질문과 연결되는지 1~3 문장}"
-
-**예시**:
-> "나는 원래 A 를 연구하던 사람이다. 지금 B 를 말할 때도 내가 보는 것은 결국 A 다. C 는 A 를 더 잘 다루기 위한 도구의 진화일 뿐이다."
-
-이 선언은 LLM 이 "왜 이 사람이 이 주제를 수집하는가" 의 깊이를 이해하는 앵커입니다.
 
 ---
 
-## 2. Why — 지식을 수집하는 목적 (재활용 축)
+## 2. Why — Reuse Axes
 
-**미래의 나에게 보내는 편지**: "이 소스가 아래 어느 축에 재활용될지" 를 수집 시점에 명시하지 못하면 수집하지 않습니다.
+→ **Active focus** (changes over time): [[🏛 CMDS Head Quarter#Current Focus Areas]]
+→ **Long-term taxonomy** (stable): [[CMDS]] (100–900 categories — `📚 N0N` headings define the durable reuse axes)
 
-축은 5~9개 권장. 너무 적으면 모든 수집이 같은 축으로 쏠리고, 너무 많으면 축 자체가 무의미해집니다.
+**미래의 나에게 보내는 편지**: every `/cmds-llm-wiki-ingest` asks "왜 수집했는가?" and the answer must map to one entry from the linked sources above (or to a long-term `📚 NNN` category from [[CMDS]]).
 
-1. **`{축 1}`**: (예) 학술 연구 / 논문 · 학위
-2. **`{축 2}`**: (예) 저술 · 출판
-3. **`{축 3}`**: (예) 강의 · 강연
-4. **`{축 4}`**: (예) 컨설팅 · 자문
-5. **`{축 5}`**: (예) 제품 · 소프트웨어 개발
-6. **`{축 6}`**: (예) 개인 에세이 · 브랜딩
-7. **`{축 7}`**: (예) 커뮤니티 · 교육 자료
+If neither HQ nor CMDS.md exists, fill in 5–9 axes here manually:
+1. `{축 1}` — (예) 학술 연구
+2. `{축 2}` — (예) 저술 · 출판
+3. ... (5–9 total)
 
 ---
 
-## 3. What — (옵션) 개인 지식 프레임워크
+## 3. What — Frameworks → see [[CMDS]]
 
-자체 지식 관리 프레임워크가 있다면 여기 기록. 없다면 비워도 OK.
+The CMDS process (Connect → Merge → Develop → Share) and 100–900 category system live in `CMDS.md`. LLMWiki uses these as the structural backbone — wiki pages classify into the same categories so they appear in `🏛 CMDS Head Quarter` navigation.
 
-**예시 구조**:
-- 지식 생애주기 단계 (예: Connect → Merge → Develop → Share)
-- 카테고리 체계 (예: 100 Themes / 200 Literature / ... / 900 Divisions)
-
----
-
-## 4. How — (옵션) 지식 시스템 철학
-
-LLM 이 정리 과정에서 따라야 할 사용자의 원칙·manifesto. 본인 에세이/블로그에서 핵심 3~5개로 요약.
-
-**예시 (참고용)**:
-- 스키마가 문서보다 먼저다 — Retrieval 은 구조 위에서 작동한다
-- Harness 설계가 경쟁력이다 — 모델보다 harness 에 투자
-- 암묵지 외재화가 AI-Ready 볼트의 본질이다
-
-각 원칙은 LLM 이 ingest 시 "이 수집이 내 철학과 어떻게 정렬되는가" 를 판단하는 기준입니다.
+If you use a different framework, document it here:
+- {your framework}
 
 ---
 
-## 5. Operational Directives (LLM 행동 규칙)
+## 4. How — Philosophy → see [[CMDS#Philosophy]] and [[🏛 CMDS Guide]]
 
-### Ingest 시
-1. `/cmds-llm-wiki-ingest` 는 반드시 "왜 수집했는가?" 를 1회 묻고 §2 축 중 하나에 매핑한다.
-2. Source frontmatter `collectionPurpose` 에 사용자 답변을 verbatim 기록.
+The user's manifesto / operating principles live in `CMDS.md` (philosophy section) and the operational standards in `🏛 CMDS Guide.md`. LLMWiki's bias-checking and contradiction-flagging defer to these.
 
-### Query 시
+---
+
+## 5. Operational Directives (skill-local — keep here, do NOT externalize)
+
+This section stays inline because it's LLMWiki-specific behavior, not vault-wide doctrine.
+
+### Ingest
+
+1. `/cmds-llm-wiki-ingest` 는 반드시 "왜 수집했는가?" 를 1회 묻고 §2 축 (HQ Focus Areas 또는 CMDS 카테고리) 중 하나에 매핑한다.
+2. Raw source frontmatter `collectionPurpose` 에 사용자 답변을 verbatim 기록.
+3. Sources go to `{sourcesPath}/{NN. category}/{YYYY-MM-DD}-{slug}.md` (frontmatter `sourcesPath` above; default `10. Raw Sources`). If the source originated from `00. Inbox/`, it is **MOVED** there — Inbox is intake, `10. Raw Sources/` is the immutable archive.
+4. Wiki pages go to `{llmWikiPath}/Wiki/{Topic}.md`. `{llmWikiPath}` is read from this vault's `AGENTS.md` frontmatter (`llmWikiPath:` field).
+
+### Query
+
 1. 답변이 §2 어느 축에 연결되는지 명시 — `이 답변은 {axis}에 활용 가능합니다`.
 2. 모든 주장에 `[[wikilink]]` 인용.
 
-### Lint 시
-- Source 에 `collectionPurpose` 누락 → flag.
-- 본 Core Context `snapshot_date` 가 180 일 이상 → re-snapshot 추천.
+### Lint
+
+- Raw source 에 `collectionPurpose` 누락 → flag.
+- 본 Core Context `snapshot_date` 가 180 일 이상 → re-bootstrap 추천 (`/cmds-llm-wiki-status` 다시 실행).
+- `status: seeded` 가 30 일 이상 review 안 됨 → flag.
 
 ---
 
-## 6. 채우고 나서
+## 6. After bootstrap
 
-- [ ] §1 정체성 채움
-- [ ] §2 재활용 축 5~9개 정의
-- [ ] (옵션) §3 개인 프레임워크
-- [ ] (옵션) §4 철학 3~5개
-- [ ] frontmatter `status: template` → `status: active`
-- [ ] frontmatter `snapshot_date` 오늘 날짜
-- [ ] frontmatter `author` 본인 이름
+- [ ] Read the pointer targets ([[BRAIN]], [[🏛 CMDS Head Quarter]], [[CMDS]]) — do they reflect your current focus?
+- [ ] If yes: flip frontmatter `status: seeded` → `status: active`
+- [ ] If a pointer target is missing/empty: fill in the inline fallback in §1 or §2
 
-완료 후 첫 `/cmds-llm-wiki-ingest` 를 실행해보세요. Core Context 가 작동하면 LLM 이 §2 축을 언급하며 수집 목적 질문을 던집니다.
+Once `status: active`, every `/cmds-llm-wiki-ingest` and `/cmds-llm-wiki-query` will follow these pointers fresh — no manual snapshot maintenance needed.
 
 ---
 
 ## 7. Related
 
-- [[index]] — Master Index
-- [[log]] — Change Log
+- [[BRAIN]] — operator profile (Who)
+- [[🏛 CMDS Head Quarter]] — active focus + navigation hub
+- [[CMDS]] — process + categories + philosophy
+- [[🏛 CMDS Guide]] — operational standards
+- [[index]] — LLMWiki master index
+- [[log]] — LLMWiki change log
 
 ---
 
-*템플릿 v1.0 — Karpathy LLM Wiki pattern, lightweight in-vault edition*
+*Template v2.0 — Karpathy LLM Wiki pattern + CMDS-vault integration (pointer-based, dedup with canonical files)*

@@ -18,7 +18,7 @@ allowed-tools:
 author:
   - "[[구요한]]"
 date created: 2026-05-05
-date modified: 2026-05-05
+date modified: 2026-05-07
 tags:
   - CMDS
   - skill
@@ -27,8 +27,8 @@ license: MIT
 metadata:
   upstream: cmds-llm-wiki v1.3.0
   scope: knowledge-management
-  version: "0.1.0"
-  status: initial
+  version: "0.2.0"
+  status: integrated
 ---
 
 # cmds-llm-wiki — Karpathy LLM Wiki, lightweight in-vault edition
@@ -44,19 +44,31 @@ LLM-maintained personal knowledge base inside the user's existing Obsidian vault
 
 Don't use for: one-off summaries (no compounding needed), code/repo work, transient chats.
 
-## Wiki layout (created on first run)
+## Vault layout (CMDS-integrated, created on first run)
 
 ```
-LLMWiki/                    # self-contained — copy this folder out to graduate
-├── Core Context.md         # who/why/reuse-axes — read FIRST by every command
-├── index.md                # one-liner catalog of every page
-├── log.md                  # append-only event log
-├── Sources/                # raw, immutable original docs
-├── Wiki/                   # LLM-maintained synthesis pages
-└── Queries/                # filed-back Q&A results (compounding)
+{vault root}/
+├── AGENTS.md                       # frontmatter `llmWikiPath: "..."` persists the location choice
+├── 10. Raw Sources/                # CMDS canonical — sources land here, NOT in {llmWikiPath}/Sources/
+│   ├── 11. Articles/
+│   ├── 12. Papers/
+│   ├── 13. Books/
+│   ├── 14. Transcripts/
+│   └── 15. Clippings/
+└── {llmWikiPath}/                  # default: LLMWiki/ — user picks at first /cmds-llm-wiki-status
+    ├── Core Context.md             # POINTER file → BRAIN.md, HQ Focus Areas, CMDS.md (no content dup)
+    ├── index.md                    # one-liner catalog of every wiki page
+    ├── log.md                      # append-only event log
+    ├── Wiki/                       # LLM-maintained synthesis pages
+    └── Queries/                    # filed-back Q&A results (compounding)
 ```
 
-**Why self-contained**: graduation = `mv LLMWiki/ ~/my-llm-wiki/`. Open as new Obsidian vault, layer the full `cmds-llm-wiki v1.3.0` template on top — no rewrite needed because schema and naming match upstream.
+**CMDS-integrated, by design** (v0.2 — driven by walkthrough feedback):
+- **Sources live in `10. Raw Sources/`** (CMDS canonical), not `{llmWikiPath}/Sources/`. Single source of truth — sources arriving via Web Clipper to `00. Inbox/` are **MOVED** here on ingest, not copied.
+- **Core Context is a pointer file**: §1/§2/§3/§4 link to `BRAIN.md`, `🏛 CMDS Head Quarter#Current Focus Areas`, `CMDS.md`, `🏛 CMDS Guide` respectively. Skill commands dereference at runtime — zero drift, zero snapshot maintenance.
+- **Location is configurable**: first run asks where to put `{llmWikiPath}/` and persists the choice to `AGENTS.md` frontmatter (`llmWikiPath:`). Future commands resolve from there.
+
+**Graduation path**: `mv {llmWikiPath}/ ~/my-llm-wiki/` then `mv "10. Raw Sources/" ~/my-llm-wiki/`. Layer the full `cmds-llm-wiki v1.3.0` template on top — schema and file naming match upstream so no content rewrite. (CMDS integration trades graduation simplicity for vault dedup; net win in practice but requires two `mv` steps instead of one.)
 
 ## Commands
 
@@ -95,21 +107,25 @@ Naming (matches upstream):
 
 | Layer | Pattern | Example |
 |-------|---------|---------|
-| Source | `Sources/YYYY-MM-DD-{slug}.md` | `Sources/2026-04-12-Karpathy-LLM-Wiki.md` |
-| Wiki page | `Wiki/{Topic}.md` | `Wiki/LLM Wiki Pattern.md` |
-| Query | `Queries/Query - {slug}.md` | `Queries/Query - RAG vs Compiled Wiki.md` |
+| Source | `10. Raw Sources/{NN. category}/YYYY-MM-DD-{slug}.md` | `10. Raw Sources/11. Articles/2026-04-12-Karpathy-LLM-Wiki.md` |
+| Wiki page | `{llmWikiPath}/Wiki/{Topic}.md` | `LLMWiki/Wiki/LLM Wiki Pattern.md` |
+| Query | `{llmWikiPath}/Queries/Query - {slug}.md` | `LLMWiki/Queries/Query - RAG vs Compiled Wiki.md` |
+
+Categories: `11. Articles` / `12. Papers` / `13. Books` / `14. Transcripts` / `15. Clippings` (auto-detected from Inbox subfolder, Web Clipper frontmatter, or content inference).
 
 CJK person entities use the native script as filename; romanization goes in `aliases`. Other naming: see [cmds-llm-wiki v1.3.0 CLAUDE.md](../../../../../cmds-llm-wiki-v1.3.0/CLAUDE.md) (the graduation target).
 
-## Core principles (inherited from Karpathy + upstream)
+## Core principles (inherited from Karpathy + upstream + CMDS integration)
 
-1. **Sources are immutable.** Verbatim. Always.
-2. **Wiki is LLM-maintained.** The LLM does the bookkeeping (cross-refs, contradictions, consolidation); the human curates sources and asks questions.
-3. **Collection-purpose gate.** Every ingest answers "why am I saving this?" — bound to a reuse axis from `Core Context.md`. No purpose, no ingest.
-4. **Index-first reads.** Every command reads `Core Context.md` and `index.md` first. Do not crawl `Wiki/` blind.
-5. **Compounding.** Good queries become wiki pages. The wiki gets smarter with use.
-6. **Bootstrap from existing knowledge.** `/cmds-llm-wiki-status` is the canonical first command and seeds `Core Context.md` from existing CMDS-style folders (`30. Permanent Notes/`, `Topics/`, `60. Collections/`, `20. Literature Notes/`, `Roundup/`). Users start from their own knowledge, not a blank template — the same Compounding principle, applied at setup time.
-7. **Graduation by copy.** When the wiki outgrows its host vault (~100 sources, ~400K words), move `LLMWiki/` out and adopt the full `cmds-llm-wiki v1.3.0` template — no rewrite.
+1. **Sources are immutable.** Verbatim. Always. Live in CMDS-canonical `10. Raw Sources/{NN. category}/`.
+2. **No duplication with the host vault.** Sources MOVE from `00. Inbox/` to `10. Raw Sources/` on ingest (single copy). Core Context POINTS to `BRAIN.md` / HQ / `CMDS.md` instead of snapshotting their content.
+3. **Wiki is LLM-maintained.** The LLM does the bookkeeping (cross-refs, contradictions, consolidation); the human curates sources and asks questions.
+4. **Collection-purpose gate.** Every ingest answers "why am I saving this?" — bound to a reuse axis (HQ Focus Area or `📚 NNN` CMDS category). No purpose, no ingest.
+5. **Index-first reads.** Every command reads `Core Context.md` (which dereferences pointers) and `index.md` first. Do not crawl `Wiki/` blind.
+6. **Compounding.** Good queries become wiki pages. The wiki gets smarter with use.
+7. **Bootstrap from existing knowledge.** `/cmds-llm-wiki-status` is the canonical first command. For CMDS-style vaults it seeds Core Context as pointers to canonical files; for non-CMDS vaults it falls back to inline-seeding axes from sampled notes.
+8. **Configurable location.** First run asks where to put `{llmWikiPath}/`; choice is persisted to `AGENTS.md` frontmatter and reused by every subsequent command.
+9. **Graduation by copy.** When the wiki outgrows its host vault (~100 sources), move `{llmWikiPath}/` and `10. Raw Sources/` out together; adopt full `cmds-llm-wiki v1.3.0` template — no rewrite.
 
 ## Conformance
 
@@ -130,17 +146,28 @@ For frontmatter validation, defer to the existing `obsidian-yaml-frontmatter` sk
 Stripped (graduation-only features):
 - Mothership-vault cross-linking (`mainVaultRelated`, `mainVaultCmds`, `source-vault`)
 - qmd vector search (uses Glob+Grep instead — fine up to ~100 sources)
-- Web Clipper integration (`00. Inbox/` subfolders, batch ingest)
+- Web Clipper template bundle (uses host vault's `00. Inbox/` as-is)
 - Book Ingest progressive-stub mode
 - PostToolUse hooks (verbatim validation, qmd auto-reindex)
 - v4 Exploration Gate (`explored: true|false`, Bias Check callouts) — kept optional, not enforced
 
 Kept (so graduation is a copy, not a rewrite):
-- 3-layer architecture (Sources → Wiki → Queries)
+- 3-layer architecture (Raw Sources → Wiki → Queries)
 - Frontmatter schema (7 required + `collectionPurpose`/`confidence`/`layer`)
 - File naming conventions
 - Ingest → Query → Lint operation cycle
 - Index-first reads, append-only log
+
+## Future Work (deferred — not in v0.2)
+
+Captured as ideas; not implemented. Each shifts the skill further toward "CMDS-native" and away from "portable bundle" — open the design tradeoff before tackling.
+
+- **Drop `{llmWikiPath}/index.md`** in favor of letting `cmds-maintenance`'s HQ Focus Lens surface active wiki layers. One less MOC to maintain.
+- **Reuse `60. Collections/61. People/` for Wiki entities** — link instead of duplicating; same logic for topic notes under `30. Permanent Notes/`.
+- **Add `CMDS:` frontmatter field on wiki pages** (`"[[📚 NNN ...]]"`) so they appear in `🏛 CMDS Head Quarter` navigation and category counts, like Permanent Notes do.
+- **Drop `{llmWikiPath}/log.md`** and append ingest events to `BRAIN.md`'s activity section (or whatever the operator's daily activity log is).
+- **Bigger reframe**: LLMWiki becomes a *view + ingestion layer* over existing CMDS folders rather than a parallel container — wiki pages get written directly into `30. Permanent Notes/{category}/` with a `wikiSource:` frontmatter field. No `{llmWikiPath}/Wiki/` at all. Most CMDS-native option but **kills the clean graduation story**.
+- **Non-CMDS vault config fallback** — when `AGENTS.md` doesn't exist, persist `llmWikiPath` to a small `.cmds-llm-wiki.yml` at vault root instead of failing back to the legacy default silently.
 
 ## Getting started
 
