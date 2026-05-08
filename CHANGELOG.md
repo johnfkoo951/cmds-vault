@@ -51,6 +51,7 @@ Driven by user feedback after running the v0.1 walkthrough end-to-end: the wiki 
 - **LLMWiki location is configurable** — first `/cmds-llm-wiki-status` asks where to put it (default `LLMWiki/`, `90. Settings/LLMWiki/`, or custom). Choice is persisted to `AGENTS.md` frontmatter as `llmWikiPath: "..."` and resolved by every subsequent command.
 - **Skill version bumped to 0.2.0**, status `integrated`. Frontmatter `sourcesPath: "10. Raw Sources"` added to Core Context for explicit configuration.
 - **`/cmds-llm-wiki-lint`** gains an Inbox-residue check that flags files in `00. Inbox/` already present in `10. Raw Sources/` (i.e., MOVE failed or was skipped).
+- **Obsidian graph view config shipped** at `templates/graph.json`. `/cmds-llm-wiki-status` offers to install it to `.obsidian/graph.json` with 4 color groups (Raw Sources / Wiki / Queries / Core Context) and a path filter scoped to LLMWiki content. Silent install on vaults with default graph; prompt-before-overwrite on customized graphs. `{llmWikiPath}` substituted at install time so non-default install paths color correctly.
 - **Future work captured in SKILL.md** (deferred, not in v0.2): drop `index.md` for HQ Focus Lens; reuse `60. Collections/61. People/` for entities; add `CMDS:` frontmatter to wiki pages; drop `log.md` to BRAIN activity; full CMDS-native reframe; non-CMDS vault config fallback.
 
 ### Graduation path

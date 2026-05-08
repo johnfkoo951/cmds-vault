@@ -68,6 +68,23 @@ Drop the entire `90. Settings/91. Skills/cmds-llm-wiki/` folder into your vault 
 - Core Context POINTS to existing CMDS files instead of snapshotting their content.
 - Location is configurable so the wiki fits your existing layout, not the other way around.
 
+## Graph view
+
+`/cmds-llm-wiki-status` offers to install a tuned `.obsidian/graph.json` with **4 color groups** and a path filter scoped to LLMWiki content:
+
+| Color | What | Query |
+|-------|------|-------|
+| 🔴 Pink/red | Raw Sources | `path:"10. Raw Sources"` |
+| 🔵 Blue/teal | Wiki pages | `path:"{llmWikiPath}/Wiki"` |
+| 🟢 Green | Queries | `path:"{llmWikiPath}/Queries"` |
+| 🟡 Yellow | Core Context (hub) | `file:"Core Context"` |
+
+Default filter: `path:"{llmWikiPath}" OR path:"10. Raw Sources"` — hides everything else for a clean view. Clear the filter in the UI to see your full vault.
+
+Open Graph view: `Cmd+G` (macOS) / `Ctrl+G` (Windows/Linux). You'll see Raw Sources cluster on one side, Wiki pages densely cross-linked in the middle, Queries hanging off the Wiki cluster, and Core Context as a central hub.
+
+**Install behavior**: silent if your vault has the Obsidian default graph (no color groups, empty search). If you've customized your graph view, the bootstrap asks before overwriting and lets you skip. Re-install later by copying `templates/graph.json` from this skill manually.
+
 ## Graduating to full LLMWiki
 
 When the lightweight version outgrows in-vault life (typical signal: 80–120 sources, or you want Web Clipper templates / qmd search / Book Ingest mode), graduate to the full template:

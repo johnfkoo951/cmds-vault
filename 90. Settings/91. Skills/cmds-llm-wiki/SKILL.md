@@ -70,6 +70,8 @@ Don't use for: one-off summaries (no compounding needed), code/repo work, transi
 
 **Graduation path**: `mv {llmWikiPath}/ ~/my-llm-wiki/` then `mv "10. Raw Sources/" ~/my-llm-wiki/`. Layer the full `cmds-llm-wiki v1.3.0` template on top — schema and file naming match upstream so no content rewrite. (CMDS integration trades graduation simplicity for vault dedup; net win in practice but requires two `mv` steps instead of one.)
 
+**Graph view**: `/cmds-llm-wiki-status` also offers to install `.obsidian/graph.json` with a 4-color-group config (Raw Sources / Wiki / Queries / Core Context) and a path filter that focuses on LLMWiki content. Open Graph view (`Cmd/Ctrl+G`) to see the structure at a glance. Skipped if your vault already has a customized graph view (you confirm before overwrite).
+
 ## Commands
 
 | Command | What it does |
@@ -168,6 +170,7 @@ Captured as ideas; not implemented. Each shifts the skill further toward "CMDS-n
 - **Drop `{llmWikiPath}/log.md`** and append ingest events to `BRAIN.md`'s activity section (or whatever the operator's daily activity log is).
 - **Bigger reframe**: LLMWiki becomes a *view + ingestion layer* over existing CMDS folders rather than a parallel container — wiki pages get written directly into `30. Permanent Notes/{category}/` with a `wikiSource:` frontmatter field. No `{llmWikiPath}/Wiki/` at all. Most CMDS-native option but **kills the clean graduation story**.
 - **Non-CMDS vault config fallback** — when `AGENTS.md` doesn't exist, persist `llmWikiPath` to a small `.cmds-llm-wiki.yml` at vault root instead of failing back to the legacy default silently.
+- **Saved graph view alternative** — Obsidian's built-in graph view is single-config. Users wanting LLMWiki view + their existing global view need a community plugin (e.g., Extended Graph). Could ship a sidecar `.obsidian/llmwiki-graph.json` for that workflow.
 
 ## Getting started
 

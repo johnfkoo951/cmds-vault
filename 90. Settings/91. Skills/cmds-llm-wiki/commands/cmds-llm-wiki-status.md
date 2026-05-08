@@ -79,6 +79,24 @@ Read("🏛 CMDS Guide.md")
 
 **If neither path applies** (empty vault, no canonical files, no populated folders): copy template verbatim with `status: template` (placeholders intact).
 
+### Step 4a: Offer to install LLMWiki graph view
+
+Read `.obsidian/graph.json` (if present).
+
+- If missing OR `colorGroups` is empty AND `search` is empty → **install silently** (it's the Obsidian default; no user customization to preserve).
+- If `colorGroups` has entries OR `search` is non-empty → **prompt the user**:
+  > "Your vault has a custom Obsidian graph view (filter / color groups). Install LLMWiki graph view? It will replace `.obsidian/graph.json`.
+  > - `yes` — install (your current graph config is overwritten)
+  > - `no` — skip (you can install later by copying `templates/graph.json` manually)
+  > - `show-diff` — display the proposed change before deciding"
+  Default: skip if not confirmed.
+
+On install:
+1. Read `templates/graph.json` from the skill directory.
+2. Substitute every `{llmWikiPath}` literal with the resolved `{llmWikiPath}` from Step 1.
+3. Write the result to `{vault root}/.obsidian/graph.json`.
+4. Tell the user: "Installed. Open Graph view (`Cmd/Ctrl+G`) — Sources / Wiki / Queries / Core Context appear as 4 distinct color groups, with the rest of your vault filtered out by default."
+
 ### Step 5: Bootstrap report
 
 Show the user:
