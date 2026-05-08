@@ -20,7 +20,7 @@
       "color": { "a": 1, "rgb": 6535764 }
     },
     {
-      "query": "file:\"Core Context\"",
+      "query": "path:\"{llmWikiPath}/Core Context\" OR path:\"{llmWikiPath}/log\" OR path:\"{llmWikiPath}/index\"",
       "color": { "a": 1, "rgb": 16763904 }
     }
   ],

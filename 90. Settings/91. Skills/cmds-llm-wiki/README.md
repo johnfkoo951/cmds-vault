@@ -77,7 +77,7 @@ Drop the entire `90. Settings/91. Skills/cmds-llm-wiki/` folder into your vault 
 | 🔴 Pink/red | Raw Sources | `path:"10. Raw Sources"` |
 | 🔵 Blue/teal | Wiki pages | `path:"{llmWikiPath}/Wiki"` |
 | 🟢 Green | Queries | `path:"{llmWikiPath}/Queries"` |
-| 🟡 Yellow | Core Context (hub) | `file:"Core Context"` |
+| 🟡 Yellow | System hubs (Core Context · log · index) | `path:"{llmWikiPath}/Core Context" OR path:"{llmWikiPath}/log" OR path:"{llmWikiPath}/index"` |
 
 Default filter: `path:"{llmWikiPath}" OR path:"10. Raw Sources"` — hides everything else for a clean view. Clear the filter in the UI to see your full vault.
 

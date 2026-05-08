@@ -70,7 +70,7 @@ Don't use for: one-off summaries (no compounding needed), code/repo work, transi
 
 **Graduation path**: `mv {llmWikiPath}/ ~/my-llm-wiki/` then `mv "10. Raw Sources/" ~/my-llm-wiki/`. Layer the full `cmds-llm-wiki v1.3.0` template on top — schema and file naming match upstream so no content rewrite. (CMDS integration trades graduation simplicity for vault dedup; net win in practice but requires two `mv` steps instead of one.)
 
-**Graph view**: `/cmds-llm-wiki-status` also offers to install `.obsidian/graph.json` with a 4-color-group config (Raw Sources / Wiki / Queries / Core Context) and a path filter that focuses on LLMWiki content. Open Graph view (`Cmd/Ctrl+G`) to see the structure at a glance. Skipped if your vault already has a customized graph view (you confirm before overwrite).
+**Graph view**: `/cmds-llm-wiki-status` also offers to install `.obsidian/graph.json` with a 4-color-group config (Raw Sources / Wiki / Queries / System hubs — Core Context · log · index) and a path filter that focuses on LLMWiki content. Open Graph view (`Cmd/Ctrl+G`) to see the structure at a glance. Skipped if your vault already has a customized graph view (you confirm before overwrite).
 
 ## Commands
 
