@@ -22,6 +22,7 @@ Activate when the user:
 - Wants to export a document as PDF
 - Needs a printable version of a markdown document
 - Requests PDF generation with Mermaid diagram support
+- Often invoked downstream of `/share` to convert markdown notes into PDF for distribution.
 
 ## Dependencies
 
@@ -48,11 +49,21 @@ Generate a self-contained Python script at `/tmp/md_to_pdf.py` with the followin
 
 ```python
 INPUT = "<source markdown file path>"
-OUTPUT = "_Outbox_/PDF/<filename>.pdf"  # always output to _Outbox_/PDF/
-TITLE = "<document title>"    # extracted from H1 or filename
-AUTHOR = "<author name>"      # from frontmatter or user request
-DATE = "<YYYY-MM-DD>"         # from frontmatter or today
+OUTPUT = "70. Outputs/<filename>.pdf"   # see CMDS Output Convention below
+TITLE = "<document title>"               # extracted from H1 or filename
+AUTHOR = "<author name>"                 # from frontmatter or user request
+DATE = "<YYYY-MM-DD>"                    # from frontmatter or today
 ```
+
+### CMDS Output Convention
+
+- **Default**: `70. Outputs/<filename>.pdf`
+- **Distribution-ready** (newsletters, articles): `70. Outputs/71. Published/<filename>.pdf`
+- **Slides / talks**: `70. Outputs/72. Presentations/<filename>.pdf`
+- **Course materials**: `70. Outputs/73. Courses/<filename>.pdf`
+- Always `mkdir -p` the target directory before writing.
+
+The script itself can stay at `/tmp/md_to_pdf.py` (it's a throwaway transform); the PDF artifact lands in `70. Outputs/`.
 
 ## HTML Template Structure
 
@@ -249,6 +260,6 @@ The script:
 
 ## Output
 
-- **PDF file**: `_Outbox_/PDF/<filename>.pdf` (ensure directory exists with `mkdir -p`)
+- **PDF file**: `70. Outputs/<filename>.pdf` (or a `71. Published/` / `72. Presentations/` subfolder per CMDS Output Convention above; ensure directory exists with `mkdir -p`)
 - **Debug HTML**: `/tmp/<name>.html`
 - Always open the PDF in default viewer after generation

@@ -128,3 +128,4 @@ custom_mappings:
 - **Non-destructive**: Files are moved, not deleted (except archives after extraction)
 - **Idempotent**: Safe to run multiple times
 - **Top-level only**: Does not recursively process existing subfolders
+- **Vault-agnostic**: Operates on `~/Downloads`, no CMDS folder dependencies. Drop-in usable as-is.

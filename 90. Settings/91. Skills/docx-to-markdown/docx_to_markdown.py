@@ -227,30 +227,35 @@ class DOCXToMarkdown:
         if not quiet and self.image_mapping:
             print(f"  Extracted {len(set(self.image_mapping.values()))} images to {self.images_dir}")
 
-        # Build frontmatter
+        # Build CMDS-conformant frontmatter (per .claude/rules/frontmatter-standard.md)
+        # 7 required fields: type, aliases, description, author, date created, date modified, tags
+        # plus optional provenance fields (source_file, source_type, extracted, status)
+        today = datetime.now().strftime("%Y-%m-%d")
+        now_iso = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        subject_suffix = f' {metadata["subject"]}' if metadata.get('subject') else ''
+        description_raw = f'Markdown extracted from DOCX: {self.docx_path.name}.{subject_suffix}'
+        # Escape backslash and double-quote so the value stays a valid YAML double-quoted scalar
+        description = description_raw.replace('\\', '\\\\').replace('"', '\\"')
+
         frontmatter_lines = [
             '---',
-            f'title: "{metadata["title"]}"',
-        ]
-
-        if len(metadata['author']) == 1:
-            frontmatter_lines.append(f'author: "{metadata["author"][0]}"')
-        else:
-            frontmatter_lines.append('author:')
-            for author in metadata['author']:
-                frontmatter_lines.append(f'  - "{author}"')
-
-        if metadata.get('subject'):
-            frontmatter_lines.append(f'subject: "{metadata["subject"]}"')
-
-        frontmatter_lines.extend([
+            'type: literature',
+            'aliases: []',
+            f'description: "{description}"',
+            'author:',
+            '  - "[[Me]]"',
+            f'date created: {today}',
+            f'date modified: {today}',
+            'tags:',
+            '  - literature',
+            '  - imported',
+            'status: unread',
             f'source_file: "{self.docx_path.name}"',
             'source_type: docx',
-            f'extracted: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
-            'status: extracted',
+            f'extracted: {now_iso}',
             '---',
             ''
-        ])
+        ]
 
         frontmatter = '\n'.join(frontmatter_lines)
 
@@ -260,6 +265,12 @@ class DOCXToMarkdown:
         # Add title
         content_parts.append(f'# {metadata["title"]}')
         content_parts.append('')
+
+        # Surface DOCX original author in body (avoids YAML wikilink orphans)
+        docx_authors = metadata.get('author') or []
+        if docx_authors and docx_authors != ['Unknown']:
+            content_parts.append(f'**Source author**: {", ".join(docx_authors)}')
+            content_parts.append('')
 
         for element in self.document.element.body:
             tag = element.tag.split('}')[-1]  # Remove namespace

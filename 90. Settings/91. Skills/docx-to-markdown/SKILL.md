@@ -25,14 +25,29 @@ python3 docx_to_markdown.py "<docx_path>" -o "<output_path>"
 ## Output Structure
 
 ```
-output_dir/
-├── document.docx           # Original file
-├── document.md             # Extracted markdown
-└── _files_/                # Images folder
+20. Literature Notes/Books/         # CMDS literature folder (typical for books)
+├── document.docx                   # Original file
+├── document.md                     # Extracted markdown
+└── _files_/                        # Images folder (sibling to .md)
     ├── DocTitle_image1.png
     ├── DocTitle_figure2.jpg
     └── ...
 ```
+
+### CMDS Output Defaults
+
+Pick the destination based on source type:
+
+| Source type | Recommended `-o` path |
+|---|---|
+| Book / long-form | `20. Literature Notes/Books/<title>.md` |
+| Article / paper | `20. Literature Notes/Articles/<title>.md` |
+| Apple Notes export | `20. Literature Notes/AppleNotes/<title>.md` |
+| Triage (unsure) | `00. Inbox/02. Clippings/<title>.md`, then promote later |
+
+Images extract to a `_files_/` sibling folder relative to the output `.md`. After conversion, link images via the relative `![alt](_files_/...)` markdown the script emits — Obsidian resolves them automatically.
+
+**Pairs with**: `/connect` (capture as theme stub) or `cmds-llm-wiki-ingest` (compile into LLM Wiki) once the `.md` is in place.
 
 ## Image Prefix
 
@@ -45,20 +60,37 @@ This prevents filename collisions when extracting multiple documents to the same
 
 ## Output Format
 
+The script emits CMDS-conformant frontmatter (per `.claude/rules/frontmatter-standard.md`) plus optional provenance fields:
+
 ```markdown
 ---
-title: {from metadata}
-author: {from metadata}
-source_file: original.docx
+type: literature
+aliases: []
+description: "Markdown extracted from DOCX: original.docx. {subject if present}"
+author:
+  - "[[Me]]"
+date created: YYYY-MM-DD
+date modified: YYYY-MM-DD
+tags:
+  - literature
+  - imported
+status: unread
+source_file: "original.docx"
 source_type: docx
 extracted: YYYY-MM-DD HH:MM:SS
-status: extracted
 ---
 
 # {Document Title}
 
+**Source author**: {DOCX core_properties author, if present}
+
 {content with ![alt](_files_/DocTitle_image.png) links}
 ```
+
+Notes:
+- `author: [[Me]]` is the CMDS placeholder for user-created notes (resolved by the WELCOME ritual). The original DOCX author is surfaced as `**Source author**:` in the body so it stays visible without producing a YAML wikilink orphan.
+- `status: unread` follows the CMDS 5-value enum (`unread/reading/inProgress/completed/archived`).
+- Adjust `type:` (e.g. to `note`, `meeting`) and `tags:` as appropriate after import.
 
 ## Dependencies
 

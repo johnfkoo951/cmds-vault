@@ -408,29 +408,31 @@ Before finalizing canvas:
 
 ## Common Use Cases
 
+> **CMDS canvas locations**: `00. Inbox/05. Canvas/` for working drafts; `30. Permanent Notes/` for evergreen concept maps; `70. Outputs/` for shareable visualizations. Precedent in this vault: `30. Permanent Notes/PKM Information Flow.canvas`, `70. Outputs/Book/My Book Outline.canvas`.
+
 ### 1. Weekly Reading Summary
 - **Layout**: Radial
 - **Categories**: AI, PKM, Current Events, Education
 - **Nodes**: Article links with quotes
-- **Output**: `AI/Canvas/YYYY-MM-DD Weekly Reading.canvas`
+- **Output**: `00. Inbox/05. Canvas/YYYY-MM-DD-weekly-reading.canvas`
 
 ### 2. Project Planning
 - **Layout**: Timeline or Hierarchical
 - **Nodes**: Milestones, tasks, deliverables
 - **Colors**: By status or phase
-- **Output**: `Projects/[Name]/Planning.canvas`
+- **Output**: `70. Outputs/<project>/Planning.canvas` (or `00. Inbox/05. Canvas/` while still in draft)
 
 ### 3. Concept Map
 - **Layout**: Hierarchical
 - **Nodes**: Main concept + subconcepts
 - **Edges**: Parent-child relationships
-- **Output**: `Topics/[Category]/[Concept].canvas`
+- **Output**: `30. Permanent Notes/<concept-name>.canvas`
 
 ### 4. Meeting Network
 - **Layout**: Radial
 - **Center**: Person or topic
 - **Nodes**: Related meetings/people
-- **Output**: `AI/Canvas/[Topic] Network.canvas`
+- **Output**: `00. Inbox/05. Canvas/<topic>-network.canvas`
 
 ## Tools & Functions
 

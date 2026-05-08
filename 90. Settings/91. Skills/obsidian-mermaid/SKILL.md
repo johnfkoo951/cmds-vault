@@ -11,6 +11,8 @@ license: MIT
 
 Create Mermaid diagrams that render correctly in Obsidian and publish without issues.
 
+> **CMDS users**: This vault has additional Obsidian-specific Mermaid rules at `.claude/rules/mermaid-rules.md` (Korean label quoting, trapezoid `[/...]` parser pitfalls, edge-label quoting). Read both — they are complementary, not duplicative.
+
 ## When to Use This Skill
 
 Activate when you need to:
