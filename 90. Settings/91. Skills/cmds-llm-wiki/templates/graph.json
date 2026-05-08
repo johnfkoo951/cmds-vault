@@ -1,0 +1,39 @@
+{
+  "collapse-filter": false,
+  "search": "(path:\"{llmWikiPath}\" OR path:\"10. Raw Sources\") -file:log -file:index",
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": true,
+  "showOrphans": false,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    {
+      "query": "path:\"10. Raw Sources\"",
+      "color": { "a": 1, "rgb": 14701138 }
+    },
+    {
+      "query": "path:\"{llmWikiPath}/Wiki\"",
+      "color": { "a": 1, "rgb": 5431518 }
+    },
+    {
+      "query": "path:\"{llmWikiPath}/Queries\"",
+      "color": { "a": 1, "rgb": 6535764 }
+    },
+    {
+      "query": "path:\"{llmWikiPath}/Core Context\"",
+      "color": { "a": 1, "rgb": 16763904 }
+    }
+  ],
+  "collapse-display": false,
+  "showArrow": false,
+  "textFadeMultiplier": 0,
+  "nodeSizeMultiplier": 1,
+  "lineSizeMultiplier": 1,
+  "collapse-forces": false,
+  "centerStrength": 0.26,
+  "repelStrength": 7.13,
+  "linkStrength": 1,
+  "linkDistance": 250,
+  "scale": 0.88,
+  "close": false
+}

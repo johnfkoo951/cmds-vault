@@ -18,6 +18,57 @@ The authoritative version source is the git tag (`git tag --list`) on this repo.
 
 ---
 
+## [1.1.0] — 2026-05-05
+
+Driven by 2026-05 코호트 Session 2.5 ("LLMWiki Deep Dive") preparation. Adds Karpathy's LLM Wiki pattern to the vault as a sister skill alongside `gobi-cli`, `cmds-onboarding`, `cmds-maintenance`, `daily-book-update`.
+
+### Added
+
+- **`cmds-llm-wiki` skill** at `90. Settings/91. Skills/cmds-llm-wiki/`:
+	- 4 slash commands: `/cmds-llm-wiki-ingest`, `/cmds-llm-wiki-query`, `/cmds-llm-wiki-lint`, `/cmds-llm-wiki-status`
+	- Builds a self-contained `LLMWiki/` folder (Sources / Wiki / Queries / index / log / Core Context) inside the host vault — does not entangle with existing CMDS folders (`30. Permanent Notes/`, `60. Collections/`, etc.)
+	- Schema-compatible with [`cmds-llm-wiki v1.3.0`](https://github.com/johnfkoo951/cmds-llm-wiki) (matching frontmatter keys: `type`, `collectionPurpose`, `confidence`, `layer`, etc., and matching naming: `Sources/YYYY-MM-DD-{slug}.md`, `Wiki/{Topic}.md`, `Queries/Query - {slug}.md`)
+	- Mandatory collection-purpose gate ("미래의 나에게 보내는 편지") on every ingest, bound to the user's reuse axes in `Core Context.md`
+	- Targets 5–10 wiki pages per ingest (lightweight cap; upstream targets 10–15)
+	- Stripped (graduation-only): mothership cross-linking, qmd vector search, Web Clipper integration, Book Ingest progressive stubs, PostToolUse hooks
+- **Templates** under `90. Settings/91. Skills/cmds-llm-wiki/templates/`: `Core Context.md`, `index.md`, `raw-source.md`, `wiki-page.md` — first-run skeletons used by the bootstrap flow inside `/cmds-llm-wiki-status`
+
+### Changed (post-release iteration based on first real-usage walkthrough)
+
+- **`/cmds-llm-wiki-status` is now the canonical bootstrap command.** When `LLMWiki/` doesn't exist, status creates the skeleton AND **smart-seeds `Core Context.md`** by sampling 5–15 notes from existing CMDS-style folders (`30. Permanent Notes/`, `Topics/`, `60. Collections/`, `20. Literature Notes/`, `Roundup/`) — inferring §1 (identity) and §2 (5–9 reuse axes) from real content. Eliminates the "fill the blank template before you can ingest" friction.
+- **`Core Context.md` `status:` field gains a `seeded` value** alongside `template` / `active`. Auto-seeded contexts land as `seeded` so `/lint` and the user know it needs review before being treated as authoritative.
+- **`/cmds-llm-wiki-ingest` no longer auto-bootstraps** — when `LLMWiki/` is missing it cleanly redirects the user to run `/cmds-llm-wiki-status` first. Keeps ingest focused on ingestion, not setup.
+- **Install docs add `/reload-plugins`** as the post-install step (faster than restarting Claude Code). Restart remains the documented fallback.
+- **Lecture (Session 2.5) hands-on block** updated to match: shows `/reload-plugins`, explains the `/status`-driven Core Context auto-seed, and demonstrates first ingest with a file path (`{your_first_file}`) rather than a URL — file paths are more reliable for first-time users.
+
+### Changed v0.2 — CMDS vault integration (minimize duplication with host vault)
+
+Driven by user feedback after running the v0.1 walkthrough end-to-end: the wiki was duplicating content the vault already had (sources stored twice once in Inbox + once in `LLMWiki/Sources/`; Core Context snapshotting BRAIN/HQ/CMDS content that was already canonical elsewhere). v0.2 integrates with CMDS conventions to fix this.
+
+- **Sources moved from `{llmWikiPath}/Sources/` to CMDS-canonical `10. Raw Sources/{NN. category}/`** (`11. Articles`, `12. Papers`, `13. Books`, `14. Transcripts`, `15. Clippings`). Matches the upstream `cmds-llm-wiki v1.3.0` layout.
+- **Sources arriving via `00. Inbox/` are MOVED, not copied** — single source of truth. After verbatim-preservation in `10. Raw Sources/`, the original Inbox file is deleted to prevent re-ingestion on next `/inbox` scan.
+- **`Core Context.md` is now a pointer file** instead of a content snapshot. §1 → `[[BRAIN]]`, §2 → `[[🏛 CMDS Head Quarter#Current Focus Areas]]` + `[[CMDS]]` categories, §3 → `[[CMDS]]`, §4 → `[[CMDS]]` + `[[🏛 CMDS Guide]]`. Skill commands dereference at runtime — zero drift, zero snapshot maintenance. Inline fallback is preserved for non-CMDS vaults.
+- **LLMWiki location is configurable** — first `/cmds-llm-wiki-status` asks where to put it (default `LLMWiki/`, `90. Settings/LLMWiki/`, or custom). Choice is persisted to `AGENTS.md` frontmatter as `llmWikiPath: "..."` and resolved by every subsequent command.
+- **Skill version bumped to 0.2.0**, status `integrated`. Frontmatter `sourcesPath: "10. Raw Sources"` added to Core Context for explicit configuration.
+- **`/cmds-llm-wiki-lint`** gains an Inbox-residue check that flags files in `00. Inbox/` already present in `10. Raw Sources/` (i.e., MOVE failed or was skipped).
+- **Obsidian graph view config shipped** at `templates/graph.json`. `/cmds-llm-wiki-status` offers to install it to `.obsidian/graph.json` with 4 color groups (Raw Sources / Wiki / Queries / Core Context) and a path filter scoped to LLMWiki content. Silent install on vaults with default graph; prompt-before-overwrite on customized graphs. `{llmWikiPath}` substituted at install time so non-default install paths color correctly.
+- **Future work captured in SKILL.md** (deferred, not in v0.2): drop `index.md` for HQ Focus Lens; reuse `60. Collections/61. People/` for entities; add `CMDS:` frontmatter to wiki pages; drop `log.md` to BRAIN activity; full CMDS-native reframe; non-CMDS vault config fallback.
+
+### Graduation path
+
+When the in-vault wiki outgrows the host vault (~100 sources, ~400K words):
+
+```bash
+mv "{your-vault}/{llmWikiPath}" ~/my-llm-wiki
+mv "{your-vault}/10. Raw Sources" ~/my-llm-wiki/
+```
+
+Then layer the full `cmds-llm-wiki v1.3.0` template on top — no content rewrite (schema matches). Core Context's pointer targets won't resolve in the new vault, so either copy `BRAIN.md`/`HQ`/`CMDS.md` in or convert Core Context back to inline content (the template's §1/§2 fallback shows the inline shape).
+
+The CMDS-integrated layout is two `mv` commands instead of one (price for in-vault dedup). Net win in practice: the wiki uses your vault's existing structure rather than parallel duplication.
+
+---
+
 ## [1.0.0] — 2026-05-02
 
 First properly versioned release. Driven by feedback from [[김진영]] (Jin) after running `cmds-onboarding` against a fresh clone (see Cohort 1기 5/2 강의 직전 피드백).
