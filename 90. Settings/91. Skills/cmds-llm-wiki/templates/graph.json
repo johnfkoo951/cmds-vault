@@ -1,6 +1,6 @@
 {
   "collapse-filter": false,
-  "search": "path:\"{llmWikiPath}\" OR path:\"10. Raw Sources\"",
+  "search": "(path:\"{llmWikiPath}\" OR path:\"10. Raw Sources\") -file:log -file:index",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": true,
@@ -20,7 +20,7 @@
       "color": { "a": 1, "rgb": 6535764 }
     },
     {
-      "query": "path:\"{llmWikiPath}/Core Context\" OR path:\"{llmWikiPath}/log\" OR path:\"{llmWikiPath}/index\"",
+      "query": "path:\"{llmWikiPath}/Core Context\"",
       "color": { "a": 1, "rgb": 16763904 }
     }
   ],

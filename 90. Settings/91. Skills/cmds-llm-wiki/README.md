@@ -77,9 +77,9 @@ Drop the entire `90. Settings/91. Skills/cmds-llm-wiki/` folder into your vault 
 | 🔴 Pink/red | Raw Sources | `path:"10. Raw Sources"` |
 | 🔵 Blue/teal | Wiki pages | `path:"{llmWikiPath}/Wiki"` |
 | 🟢 Green | Queries | `path:"{llmWikiPath}/Queries"` |
-| 🟡 Yellow | System hubs (Core Context · log · index) | `path:"{llmWikiPath}/Core Context" OR path:"{llmWikiPath}/log" OR path:"{llmWikiPath}/index"` |
+| 🟡 Yellow | Core Context (hub) | `path:"{llmWikiPath}/Core Context"` |
 
-Default filter: `path:"{llmWikiPath}" OR path:"10. Raw Sources"` — hides everything else for a clean view. Clear the filter in the UI to see your full vault.
+Default filter: `(path:"{llmWikiPath}" OR path:"10. Raw Sources") -file:log -file:index` — hides everything outside LLMWiki, plus excludes the `log.md` and `index.md` system files from the graph (they accumulate links to every page and make the graph noisy). Clear the filter in the UI to see your full vault.
 
 Open Graph view: `Cmd+G` (macOS) / `Ctrl+G` (Windows/Linux). You'll see Raw Sources cluster on one side, Wiki pages densely cross-linked in the middle, Queries hanging off the Wiki cluster, and Core Context as a central hub.
 
