@@ -1,0 +1,25 @@
+{
+	"nodes":[
+		{"id":"title","type":"text","text":"# Book Prompts (W2 Living Book)\n\n4 prompts + 4 worked examples for the cohort book-writing flow.","x":-410,"y":-600,"width":820,"height":80,"color":"6"},
+		{"id":"otp_card","type":"text","text":"## STAGE 1 · DRAFT\n\n**Outline → Paragraph (OTP)**\n\n_When_: 아웃라인 노드 한 개를 첫 단락 초안으로 풀고 싶을 때\n\n→ [[Outline-to-Paragraph (OTP)]]","x":-410,"y":-480,"width":380,"height":170,"color":"1"},
+		{"id":"otp_example","type":"text","text":"### OTP — Example\n\n**Scenario**: 첫 챕터, \"AI가 가져가는 것 vs 사람의 영역\" 노드를 단락으로.\n\n→ [[Outline-to-Paragraph (OTP) - Example]]","x":30,"y":-480,"width":380,"height":170},
+		{"id":"aav_card","type":"text","text":"## STAGE 2 · VOICE\n\n**Add Author Voice (AAV)**\n\n_When_: AI 단락이 generic 할 때 본인 보이스 강제 (W2 의무 도구)\n\n→ [[Add-Author-Voice (AAV)]]","x":-410,"y":-280,"width":380,"height":170,"color":"1"},
+		{"id":"aav_example","type":"text","text":"### AAV — Example\n\n**Scenario**: OTP 결과가 너무 generic. voice cue 와 함께 다시 통과.\n\n→ [[Add-Author-Voice (AAV) - Example]]","x":30,"y":-280,"width":380,"height":170},
+		{"id":"pti_card","type":"text","text":"## STAGE 3 · IMAGE\n\n**Paragraph → Image (PTI)**\n\n_When_: 단락에 어울리는 editorial illustration 1장\n\n→ [[Paragraph-to-Image (PTI)]]","x":-410,"y":-80,"width":380,"height":170,"color":"1"},
+		{"id":"pti_example","type":"text","text":"### PTI — Example\n\n**Scenario**: 챕터 1 첫 단락에 \"tech editorial\" 톤 이미지.\n\n→ [[Paragraph-to-Image (PTI) - Example]]","x":30,"y":-80,"width":380,"height":170},
+		{"id":"sns_card","type":"text","text":"## STAGE 4 · UNSTUCK\n\n**Suggest Next Sections (SNS)**\n\n_When_: 한 섹션 끝낸 뒤 다음에 뭘 쓸지 막혔을 때\n\n→ [[Suggest-Next-Sections (SNS)]]","x":-410,"y":120,"width":380,"height":170,"color":"1"},
+		{"id":"sns_example","type":"text","text":"### SNS — Example\n\n**Scenario**: 첫 섹션 마쳤다. A/B/C 옵션 + 추천 1개 받기.\n\n→ [[Suggest-Next-Sections (SNS) - Example]]","x":30,"y":120,"width":380,"height":170},
+		{"id":"caption","type":"text","text":"## How they chain\n\n1. **OTP** 로 단락 초안 생성\n2. **AAV** 로 본인 보이스 입힘 (W2 의무)\n3. **PTI** 로 이미지 1장\n4. 막히면 **SNS** — 다음 섹션 후보 3개\n\n매 단락마다 OTP → AAV (→ PTI) 사이클을 반복.","x":-410,"y":320,"width":820,"height":160,"color":"5"},
+		{"id":"legend","type":"text","text":"### Stage Legend\n\n- **Stage 1 · DRAFT** (OTP) — 단락 생성\n- **Stage 2 · VOICE** (AAV) — 보이스 입힘\n- **Stage 3 · IMAGE** (PTI) — 이미지 추가\n- **Stage 4 · UNSTUCK** (SNS) — 막힘 풀기\n\n붉은 카드 = 프롬프트, 무채색 = Example.","x":-410,"y":500,"width":400,"height":200},
+		{"id":"files_sheet","type":"text","text":"### Files in this folder\n\n**Prompts**:\n- [[Outline-to-Paragraph (OTP)]]\n- [[Add-Author-Voice (AAV)]]\n- [[Paragraph-to-Image (PTI)]]\n- [[Suggest-Next-Sections (SNS)]]\n\n**Examples**:\n- [[Outline-to-Paragraph (OTP) - Example]]\n- [[Add-Author-Voice (AAV) - Example]]\n- [[Paragraph-to-Image (PTI) - Example]]\n- [[Suggest-Next-Sections (SNS) - Example]]","x":10,"y":500,"width":400,"height":200}
+	],
+	"edges":[
+		{"id":"e_otp_ex","fromNode":"otp_card","fromSide":"right","toNode":"otp_example","toSide":"left"},
+		{"id":"e_aav_ex","fromNode":"aav_card","fromSide":"right","toNode":"aav_example","toSide":"left"},
+		{"id":"e_pti_ex","fromNode":"pti_card","fromSide":"right","toNode":"pti_example","toSide":"left"},
+		{"id":"e_sns_ex","fromNode":"sns_card","fromSide":"right","toNode":"sns_example","toSide":"left"},
+		{"id":"e_otp_aav","fromNode":"otp_card","fromSide":"bottom","toNode":"aav_card","toSide":"top","color":"1","label":"voice 입히기"},
+		{"id":"e_aav_pti","fromNode":"aav_card","fromSide":"bottom","toNode":"pti_card","toSide":"top","color":"1","label":"이미지 추가"},
+		{"id":"e_pti_sns","fromNode":"pti_card","fromSide":"bottom","toNode":"sns_card","toSide":"top","color":"1","label":"if stuck"}
+	]
+}
