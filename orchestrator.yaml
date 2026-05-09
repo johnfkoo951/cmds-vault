@@ -20,7 +20,7 @@ nodes:
   - type: agent
     name: Enrich Ingested Content (EIC)
     input_path: 00. Inbox/02. Clippings
-    output_path: 10. Raw Sources
+    output_path: 20. Literature Notes/Articles/
     input_type: new_file
     enabled: true
   - type: agent
