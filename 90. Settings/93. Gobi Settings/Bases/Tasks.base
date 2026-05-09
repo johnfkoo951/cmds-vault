@@ -1,0 +1,28 @@
+views:
+  - type: table
+    name: Table
+    filters:
+      and:
+        - file.path.startsWith("90. Settings/93. Gobi Settings/Tasks")
+        - file.ext == "md"
+        - status != "IGNORE"
+        - task_type != "DDW"
+    order:
+      - file.name
+      - output
+      - created
+      - status
+      - priority
+      - worker
+      - task_type
+    sort:
+      - property: created
+        direction: DESC
+      - property: file.name
+        direction: DESC
+    columnSize:
+      file.name: 424
+      note.output: 340
+      note.created: 159
+      note.status: 112
+      note.worker: 103

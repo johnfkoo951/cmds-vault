@@ -1,0 +1,30 @@
+version: "1.0"
+orchestrator:
+  chat_history_dir: 90. Settings/93. Gobi Settings/Chats
+  max_concurrent: 3
+  poll_interval: 1
+  captures_dir: 00. Inbox/08. Capture
+  skills_dir: 90. Settings/91. Skills
+  prompts_dir: 90. Settings/92. Prompts
+  logs_dir: 90. Settings/93. Gobi Settings/Logs
+  tasks_dir: 90. Settings/93. Gobi Settings/Tasks
+  bases_dir: 90. Settings/93. Gobi Settings/Bases
+defaults:
+  executor: claude_code
+  timeout_minutes: 30
+  max_parallel: 3
+  task_create: true
+  task_priority: medium
+  task_archived: false
+nodes:
+  - type: agent
+    name: Enrich Ingested Content (EIC)
+    input_path: 00. Inbox/02. Clippings
+    output_path: 20. Literature Notes/Articles/
+    input_type: new_file
+    enabled: true
+  - type: agent
+    name: Daily Downloads Organizer (DDO)
+    output_path: ~/Downloads
+    cron: 0 8 * * *
+    enabled: false
