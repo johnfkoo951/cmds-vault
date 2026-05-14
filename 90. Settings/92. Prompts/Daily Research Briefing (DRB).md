@@ -206,7 +206,7 @@ topics_covered:
 # orchestrator.yaml 예시 — daily cron
 - type: agent
 	name: Daily Research Briefing (DRB)
-	cron: 0 8 * * *  # 매일 오전 8시
+	cron: 0 7 * * *  # 매일 오전 7시
 	output_path: "00. Inbox/03. AI Agent/03-1. Claude Code (MBP)"
 	agent_params:
 		scope: topics            # topics | book | project:<name> | paths:<a,b>
