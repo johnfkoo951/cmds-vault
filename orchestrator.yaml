@@ -33,3 +33,8 @@ nodes:
     output_path: 00. Inbox/03. AI Agent/03-1. Claude Code (MBP)/
     cron: 0 7 * * *
     enabled: false
+  - type: agent
+    name: Daily Book Update (DBU)
+    output_path: 70. Outputs/Book/
+    cron: 0 8 * * *
+    enabled: false
