@@ -7,7 +7,7 @@ description: "Claude Code specific technical implementation guide for the CMDS s
 author:
   - "[[구요한]]"
 date created: 2025-09-27T17:53
-date modified: 2026-04-28
+date modified: 2026-05-27
 tags:
   - CMDS
   - system
@@ -26,9 +26,10 @@ optional-for:
 token-estimate: 5800
 CMDS: "[[📚 501 Obsidian]]"
 index: "[[🏛 CMDS Head Quarter]]"
-version: "3.3"
+version: "3.4"
 status: completed
 changelog:
+  - "3.4 (2026-05-27): Synced frontmatter from mothership v4.8.0 — date modified bumped. Starter body unchanged."
   - "3.3 (2026-04-23): description 필드 double-quote 강제 규칙 추가 — YAML plain scalar의 ': ' 금지로 Obsidian Properties 렌더 깨짐 방지."
   - "3.2 (2026-04-20): Project Overview를 starter vault 관점으로 재작성, 개인 식별 정보 placeholder화."
   - "3.1 (2026-04-07): 필수 프로퍼티 7개로 확장 (description 추가, English required for LLMs)"
