@@ -36,7 +36,7 @@ changelog:
   - "3.0 (2026-04-01): @include 기반 공통 규칙 분리, 9개 아키텍처 패턴 적용"
 ---
 
-> **🔄 Last Updated: 2026-04-28** | Upstream reference: [system.cmdspace.work](https://system.cmdspace.work) (canonical CMDS conventions by 구요한 / Yohan Koo)
+> **🔄 Last Updated: 2026-05-30** | Upstream reference: [system.cmdspace.work](https://system.cmdspace.work) (canonical CMDS conventions by 구요한 / Yohan Koo)
 
 # CLAUDE.md
 
@@ -275,7 +275,7 @@ inbox 항목 빠르게 분류·등록
 
 ## System Documentation Structure
 
-This vault has **5 core system files** that work together to provide complete guidance:
+This vault has **6 core system files** that work together to provide complete guidance:
 
 ### 🤖 AI Documents (loaded into context window)
 
@@ -291,6 +291,12 @@ This vault has **5 core system files** that work together to provide complete gu
 | --------------------------- | --------------------- | --------- | ------------------------------------- |
 | **🏛 CMDS Head Quarter.md** | Navigation hub        | User      | **WHERE** - Category map, quick links |
 | **🏛 CMDS Guide.md**        | Operational standards | User + AI | **STANDARDS** - Properties, templates |
+
+### 🎨 Visual Language (loaded when producing visual artifacts)
+
+| File          | Purpose              | Audience                        | Focus                                              |
+| ------------- | -------------------- | ------------------------------- | -------------------------------------------------- |
+| **DESIGN.md** | Visual language spec | LLM agents making visual output | **HOW (Visual)** - CI tokens, Anti-Slop, templates |
 
 ### When to Use Which File
 

@@ -34,9 +34,9 @@ changelog:
   - "2.1 (2026-03-15): 폴더 구조 현행화, 새 type 추가"
 ---
 
-> **🔄 Last Updated: 2026-04-28** | Upstream reference: [system.cmdspace.work](https://system.cmdspace.work) (canonical CMDS conventions by 구요한 / Yohan Koo)
+> **🔄 Last Updated: 2026-05-30** | Upstream reference: [system.cmdspace.work](https://system.cmdspace.work) (canonical CMDS conventions by 구요한 / Yohan Koo)
 >
-> 📌 **Version 2.3** — Properties 표준화 및 체계 개선판
+> 📌 **Version 2.4** — Properties 표준화 + frontmatter sync from mothership v4.8.0
 
 # CMDS Guide
 

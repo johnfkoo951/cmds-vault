@@ -31,7 +31,7 @@ changelog:
   - "1.0 (2026-03-15): CMDS Process 설명 추가, Vault Folders 섹션 추가"
 ---
 
-> **🔄 Last Updated: 2026-04-28** | Upstream reference: [system.cmdspace.work](https://system.cmdspace.work)
+> **🔄 Last Updated: 2026-05-30** | Upstream reference: [system.cmdspace.work](https://system.cmdspace.work)
 
 <!-- focus-lens-start -->
 <!-- This section is auto-managed by the cmds-maintenance skill (90. Settings/91. Skills/cmds-maintenance/SKILL.md).

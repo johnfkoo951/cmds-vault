@@ -1,6 +1,6 @@
 ---
-template-version: "1.0.0"
-template-released: 2026-05-02
+template-version: "1.2.0"
+template-released: 2026-05-30
 template-source: https://github.com/johnfkoo951/cmds-vault
 template-author: "[[구요한]]"
 ---
@@ -9,13 +9,13 @@ template-author: "[[구요한]]"
 
 > Class-ready Obsidian vault running [CMDS conventions](https://system.cmdspace.work) with [Gobi Desktop](https://gobi.app) integration baked in. Clone, open in Obsidian, start writing.
 
-> **Template version**: `1.0.0` (released 2026-05-02). To check what version you're running: `cat VERSION` or read `template-version` in this README's frontmatter. Upstream changes are tracked in [`CHANGELOG.md`](./CHANGELOG.md). Authoritative version source: git tags on this repo.
+> **Template version**: `1.2.0` (released 2026-05-30). To check what version you're running: `cat VERSION` or read `template-version` in this README's frontmatter. Upstream changes are tracked in [`CHANGELOG.md`](./CHANGELOG.md). Authoritative version source: git tags on this repo.
 
 ## What this is
 
 This vault is a **graft**:
 
-- **Base** — [cmds-system-files](https://github.com/johnfkoo951/cmds-system-files) by John Koo. The 5 system files (`CLAUDE.md`, `AGENTS.md`, `CMDS.md`, `🏛 CMDS Guide.md`, `🏛 CMDS Head Quarter.md`) and 7 shared rules (`.claude/rules/`) plus 8 slash commands (`.claude/commands/`) define the CMDS PKM operating model — atomic notes, frontmatter standard, 4-stage pipeline (Connect → Merge → Develop → Share), wikilink discipline.
+- **Base** — [cmds-system-files](https://github.com/johnfkoo951/cmds-system-files) by John Koo. The 6 system files (`CLAUDE.md`, `AGENTS.md`, `CMDS.md`, `🏛 CMDS Guide.md`, `🏛 CMDS Head Quarter.md`, `DESIGN.md`) and 8 shared rules (`.claude/rules/`) plus 8 slash commands (`.claude/commands/`) define the CMDS PKM operating model — atomic notes, frontmatter standard, 4-stage pipeline (Connect → Merge → Develop → Share), wikilink discipline.
 - **Add-on** — minimal Gobi identity files (`BRAIN.md`, `BRAIN.jpg`, `BRAIN_PROMPT.md`) so the vault registers as a Gobi Brain. Skills and prompts that drive Gobi live in cmds-style `90. Settings/91. Skills/` and `90. Settings/92. Prompts/`. The `.gobi/` runtime folder is **not** shipped — `gobi init` creates it on first run.
 
 Numeric folders (`00. Inbox/` … `90. Settings/`) are pre-created with `.gitkeep` placeholders matching `cmds-system-files/rules/directory-structure.md`. No manual setup required.
@@ -34,7 +34,7 @@ Open `~/Documents/cmds-vault` in Obsidian via **Open folder as vault**.
 
 Before personalizing, open `WELCOME.md` in Obsidian. It walks through:
 
-- The 5 system files (CLAUDE / AGENTS / CMDS / 🏛 CMDS Guide / 🏛 HQ) and what each one is for — these retain `author: "[[구요한]]"` (upstream attribution, do not change)
+- The 6 system files (CLAUDE / AGENTS / CMDS / 🏛 CMDS Guide / 🏛 HQ / DESIGN) and what each one is for — these retain `author: "[[구요한]]"` (upstream attribution, do not change)
 - How to batch-replace the `[[Me]]` placeholder with your own name in **user-scope only** (your notes, BRAIN.md, templates) — system files stay attributed to the original author
 - A 5-minute first Connect → Merge → Develop → Share cycle
 - Where to find the slash commands
@@ -92,10 +92,10 @@ Refer to `[[🏛 CMDS Head Quarter]]` in Obsidian for the full navigation.
 
 ```
 cmds-vault/
-├── CLAUDE.md, AGENTS.md, CMDS.md, 🏛 CMDS Guide.md   # CMDS system files (load order: precedence 1-4)
-├── 🏛 CMDS Head Quarter.md                            # Navigation hub (precedence 5)
+├── CLAUDE.md, AGENTS.md, CMDS.md, 🏛 CMDS Guide.md   # CMDS system files (load order: precedence 1-5)
+├── 🏛 CMDS Head Quarter.md, DESIGN.md                 # Navigation hub (precedence 6) + visual language spec (precedence 9)
 ├── WELCOME.md                                         # First-read onboarding doc (vault use guide + author batch-replace)
-├── .claude/rules/                                    # 7 shared rules (frontmatter, wikilink, etc.)
+├── .claude/rules/                                    # 8 shared rules (frontmatter, wikilink, etc.)
 ├── .claude/commands/                                 # 8 slash commands (connect/merge/develop/share/inbox/lint/query/status)
 │
 ├── 00. Inbox/{01-09 subfolders}/                     # Capture
@@ -154,6 +154,8 @@ Repeat for `agents`, `commands`, `skills` if you populate them.
 - **License** — see upstream repos. CMDS rules are MIT-licensed; this vault redistributes them under the same terms.
 
 ## Updating
+
+This kit grafts **6 of the mothership's 9 system files**: it includes `CLAUDE.md`, `AGENTS.md`, `CMDS.md`, `🏛 CMDS Guide.md`, `🏛 CMDS Head Quarter.md`, and `DESIGN.md` (added as the 6th public file in v1.2.0). It **excludes** `ANTIGRAVITY.md` (a Gemini-vendor file) and the two Gobi-persona files (`BRAIN.md` / `BRAIN_PROMPT.md`, shipped here only as the Gobi add-on, not as system files).
 
 To pull upstream cmds rule changes:
 

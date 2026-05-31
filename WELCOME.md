@@ -4,11 +4,11 @@ aliases:
   - Welcome
   - Onboarding
   - First Read
-description: "First-read onboarding doc for the CMDS starter vault. Walks through the 5 system files, the author placeholder batch-replace ritual, and the first Connect→Merge→Develop→Share cycle. Read this BEFORE the gobi-onboarding skill."
+description: "First-read onboarding doc for the CMDS starter vault. Walks through the 6 system files, the author placeholder batch-replace ritual, and the first Connect→Merge→Develop→Share cycle. Read this BEFORE the gobi-onboarding skill."
 author:
   - "[[구요한]]"
 date created: 2026-04-28
-date modified: 2026-04-28
+date modified: 2026-05-30
 tags:
   - CMDS
   - onboarding
@@ -36,7 +36,7 @@ The framework you'll use:
 - **9 categories** (100 Themes, 200 Literature, ..., 900 Divisions) for classifying knowledge
 - **CMDS Process** (Connect → Merge → Develop → Share) for moving knowledge through stages
 - **8 slash commands** (`/connect`, `/merge`, `/develop`, `/share`, `/inbox`, `/lint`, `/query`, `/status`) that operate the Process from Claude Code
-- **5 system files** that document the conventions for both you and AI assistants
+- **6 system files** that document the conventions for both you and AI assistants (incl. DESIGN.md, the visual-language spec)
 - **3 Brain identity files** (`BRAIN.md`, `BRAIN.jpg`, `BRAIN_PROMPT.md`) for Gobi integration
 
 The canonical, fully-populated reference vault is the operator's own — see [system.cmdspace.work](https://system.cmdspace.work) — but **your vault starts mostly empty**, with conventions baked in. You'll fill it as you go.
@@ -45,7 +45,7 @@ The canonical, fully-populated reference vault is the operator's own — see [sy
 
 ## Read these in order (10 min)
 
-Before doing anything, skim the 5 system files. You don't need to memorize — just know what each one is *for* so you can return to the right one later.
+Before doing anything, skim the 6 system files. You don't need to memorize — just know what each one is *for* so you can return to the right one later.
 
 | # | File | Why read it |
 |---|------|-------------|
@@ -54,6 +54,7 @@ Before doing anything, skim the 5 system files. You don't need to memorize — j
 | 3 | **[[🏛 CMDS Guide]]** (precedence 4) | The standards — Properties, naming, file prefixes (you'll come back here often) |
 | 4 | **[[CLAUDE]]** (precedence 1) | Technical rules for Claude Code (skim only if you'll use Claude Code) |
 | 5 | **[[AGENTS]]** (precedence 2) | Same as #4 but for Gemini CLI / Codex / Cursor / etc. |
+| 6 | **[[DESIGN]]** (precedence 6) | Visual language spec — CI color tokens, Anti-Slop rules, template catalog (skim if you'll make slides / PDFs / web) |
 
 > 💡 **`precedence`** is the load order if multiple AI assistants are reading docs. Lower number = read first. CLAUDE.md (1) is the most authoritative for code workflows; HQ (5) is just navigation.
 
