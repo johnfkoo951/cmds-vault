@@ -1,6 +1,6 @@
 ---
 name: cmds-onboarding
-description: Interview-based vault context capture for cmds-vault. Personalizes BRAIN.md, fills 100 Themes stubs, and optionally fills the CMDS.md Vault Operator profile so AI assistants give context-aware answers from day one. Activate when the user says "cmds onboarding", "context onboarding", "내 컨텍스트로 채워줘", "fill my vault", "personalize my brain", "interview me", or after a fresh clone before exploring slash commands. Complementary to gobi-onboarding (which focuses on Gobi Space publishing).
+description: Interview-based vault context capture for cmds-vault. Personalizes BRAIN.md, fills 100 Themes stubs, and optionally fills the CMDS.md Vault Operator profile so AI assistants give context-aware answers from day one. Activate when the user says "온보딩해줘", "처음 시작할게", "cmds onboarding", "온보딩", "context onboarding", "내 컨텍스트로 채워줘", "fill my vault", "personalize my brain", "interview me", "어떻게 시작하지", or after a fresh clone before exploring slash commands. Complementary to gobi-onboarding (which focuses on Gobi Space publishing).
 metadata:
   version: "1.0"
   author: johnfkoo951
@@ -16,7 +16,7 @@ Interview-led skill that turns the empty cmds-vault into a *vault that knows you
 ## When to Use
 
 Activate on any of:
-- User says "cmds onboarding", "온보딩", "context onboarding", "내 컨텍스트로 채워줘", "fill my vault", "personalize", "interview me"
+- User says "온보딩해줘", "처음 시작할게", "cmds onboarding", "온보딩", "context onboarding", "내 컨텍스트로 채워줘", "fill my vault", "personalize", "interview me"
 - User opens a freshly-cloned `cmds-vault` and says "어떻게 시작하지?" or "where do I start?"
 - `BRAIN.md` still contains `(your name)` or `(student / researcher / hobbyist)` placeholders
 - `CMDS.md` line 145 still reads `## The Vault Operator: (Your Name)` with the TODO HTML comment intact
