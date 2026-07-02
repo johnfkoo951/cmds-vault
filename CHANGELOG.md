@@ -7,7 +7,7 @@ description: "Version history for the cmds-vault public starter kit. Tracks rele
 author:
   - "[[구요한]]"
 date created: 2026-04-28
-date modified: 2026-05-30
+date modified: 2026-07-03
 tags:
   - CMDS
   - changelog
@@ -19,6 +19,17 @@ tags:
 All notable changes to the cmds-vault starter kit are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/).
+
+## [1.2.1] — 2026-07-03
+
+Patch release — no new files or capabilities; trigger aliases and documentation corrections accumulated since v1.2.0. Cut primarily to unstick the GitHub Releases channel, which had been serving v1.0.0 as Latest while tags advanced to v1.2.0.
+
+### Added
+- **cmds-onboarding skill triggers** — '온보딩해줘' and '처음 시작할게' now invoke the onboarding skill (Korean first-run phrases).
+
+### Fixed
+- **🏛 CMDS Guide.md author-attribution rule** — DESIGN.md added to the system-file enumeration (`CLAUDE/AGENTS/CMDS/Guide/HQ/DESIGN/WELCOME/README`). It was shipped as the 6th public system file in v1.2.0 but omitted from this list, so onboarding users could mistake it for a user note and overwrite its upstream `author: [[구요한]]` with `[[Me]]`. (Found by the 2026-07-02 mothership system-files audit; merged via PR #14.)
+- CHANGELOG `[1.2.0]` compare-link base corrected (v1.1.0 → v1.1.1).
 
 ## [1.2.0] — 2026-05-30
 
@@ -55,6 +66,7 @@ and this project uses [Semantic Versioning](https://semver.org/).
 - gobi onboarding/maintenance/cmds skills.
 - orchestrator.yaml.
 
+[1.2.1]: https://github.com/johnfkoo951/cmds-vault/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/johnfkoo951/cmds-vault/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/johnfkoo951/cmds-vault/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/johnfkoo951/cmds-vault/compare/v1.0.0...v1.1.0
