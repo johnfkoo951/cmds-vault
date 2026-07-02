@@ -43,7 +43,7 @@ changelog:
 이 문서는 CMDS 볼트에서 노트를 만들고 관리할 때 따르는 **표준 규칙**을 정의합니다. 새 노트를 만들 때마다 여기를 참조하세요.
 
 > **저자 표기 규칙 (두 가지 정체)**:
-> - **시스템 파일** (CLAUDE/AGENTS/CMDS/Guide/HQ/WELCOME/README, 슬래시 커맨드, rules, skills): `author: [[구요한]]` — upstream attribution. 변경하지 마세요.
+> - **시스템 파일** (CLAUDE/AGENTS/CMDS/Guide/HQ/DESIGN/WELCOME/README, 슬래시 커맨드, rules, skills): `author: [[구요한]]` — upstream attribution. 변경하지 마세요.
 > - **사용자 작성 노트** (BRAIN.md, daily/permanent/literature notes, captures): `author: [[Me]]` placeholder → WELCOME ritual 또는 cmds-onboarding 스킬로 본인 이름으로 일괄 치환. 자세한 절차는 [[WELCOME]] 참조.
 
 ## Properties
