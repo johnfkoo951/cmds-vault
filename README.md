@@ -1,5 +1,5 @@
 ---
-template-version: "1.2.0"
+template-version: "1.2.1"
 template-released: 2026-05-30
 template-source: https://github.com/johnfkoo951/cmds-vault
 template-author: "[[구요한]]"
@@ -9,7 +9,7 @@ template-author: "[[구요한]]"
 
 > Class-ready Obsidian vault running [CMDS conventions](https://system.cmdspace.work) with [Gobi Desktop](https://gobi.app) integration baked in. Clone, open in Obsidian, start writing.
 
-> **Template version**: `1.2.0` (released 2026-05-30). To check what version you're running: `cat VERSION` or read `template-version` in this README's frontmatter. Upstream changes are tracked in [`CHANGELOG.md`](./CHANGELOG.md). Authoritative version source: git tags on this repo.
+> **Template version**: `1.2.1` (released 2026-07-03). To check what version you're running: `cat VERSION` or read `template-version` in this README's frontmatter. Upstream changes are tracked in [`CHANGELOG.md`](./CHANGELOG.md). Authoritative version source: git tags on this repo.
 
 ## What this is
 
