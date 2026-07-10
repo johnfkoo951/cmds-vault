@@ -41,3 +41,13 @@
 ✅ [[🏛 CMDS Head Quarter]]
 ✅ [[📚 620 Generative AI]]
 ```
+
+## File Move / Rename → Update Dependents
+
+Moving, renaming, or deleting a note can break links that point to it. Always update inbound dependencies together.
+
+1. **Before** renaming/deleting, find inbound links: `grep -rl "<old-name>" .` (or Obsidian backlinks). Check `[[wikilinks]]`, `![[embeds]]`, and text references.
+2. If the **basename changes**, update every inbound `[[old]]` → `[[new]]`. Keep the visible text with `[[new|display]]`; inside table cells escape the pipe as `\|`.
+3. **Moving only** (same basename) does not break wikilinks — Obsidian resolves by basename. Still check absolute paths and embeds.
+4. **Index / MOC / hub** notes almost always have inbound links → update them first.
+5. **After** the change, re-run `grep -rl "<old-name>"` and confirm 0 hits.
