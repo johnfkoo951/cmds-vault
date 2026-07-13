@@ -313,7 +313,7 @@ related:
 ├── 05. Canvas/                 # Canvas 노트
 ├── 06. Automation/             # 자동화
 ├── 07. App Sync/               # 외부 앱 연동
-├── 08. Unlisted/               # 미분류
+├── 08. Transcripts/            # Raw 전사본 착륙 레인 (08-1. Plaud, 08-2. STT, 08-3. Manual) — 처리 후 40. Docs 아카이브
 └── 09. Legacy/                 # 레거시 컨텐츠
 
 10. CMDS Process/               # CMDS 프로세스 워크플로우

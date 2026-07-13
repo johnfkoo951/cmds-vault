@@ -543,7 +543,7 @@ tags: []        # Topical tags
 - `05. Canvas/` — Canvas notes
 - `06. Automation/` — Automation workflows
 - `07. App Sync/` — External app sync
-- `08. Unlisted/` — Unlisted items
+- `08. Transcripts/` — Raw transcript landing lanes (Plaud / STT / Manual)
 - `09. Legacy/` — Legacy and archived content
 
 **Workflow**: Items in Inbox are temporary. They should be processed and moved to appropriate CMDS categories.
