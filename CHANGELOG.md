@@ -20,6 +20,17 @@ All notable changes to the cmds-vault starter kit are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/).
 
+## [1.2.2] — 2026-07-13
+
+Patch release — inbox folder restructure synced from mothership v4.9.5.
+
+### Changed
+- **`00. Inbox/08. Unlisted/` → `08. Transcripts/`** — the unused Unlisted placeholder is repurposed as a raw-transcript landing zone with per-source lanes: `08-1. Plaud/`, `08-2. STT/`, `08-3. Manual/`. Two-layer design: this inbox folder is a *queue* (healthy when empty); processed transcript originals belong in an archive folder (mothership convention: `40. Docs/44. Transcripts/`) or their project folder.
+- Docs updated to match: `🏛 CMDS Guide.md` folder tree, `CMDS.md` inbox list, `.claude/rules/directory-structure.md` (also drops the stale STT mention from `06. Automation`), and both `inbox.md` command copies.
+
+### Notes
+- `08. Capture/` (orchestrator.yaml placeholder) is intentionally untouched; the 08-number collision it creates with the new `08. Transcripts/` is a pre-existing numbering issue to resolve in a future minor release.
+
 ## [1.2.1] — 2026-07-03
 
 Patch release — no new files or capabilities; trigger aliases and documentation corrections accumulated since v1.2.0. Cut primarily to unstick the GitHub Releases channel, which had been serving v1.0.0 as Latest while tags advanced to v1.2.0.
@@ -66,6 +77,7 @@ Patch release — no new files or capabilities; trigger aliases and documentatio
 - gobi onboarding/maintenance/cmds skills.
 - orchestrator.yaml.
 
+[1.2.2]: https://github.com/johnfkoo951/cmds-vault/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/johnfkoo951/cmds-vault/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/johnfkoo951/cmds-vault/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/johnfkoo951/cmds-vault/compare/v1.1.0...v1.1.1

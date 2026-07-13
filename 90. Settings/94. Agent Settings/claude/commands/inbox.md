@@ -33,7 +33,7 @@ Inspect the following paths under `00. Inbox/`. Use `Glob` for each, count `*.md
 | `06. Automation/` | n8n / Make.com workflow notes |
 | `06. GenAI Chats/` | ChatGPT / Claude conversation logs |
 | `07. App Sync/` | External app sync (Bear, Antigravity, etc.) |
-| `08. Unlisted/` | Unlisted items |
+| `08. Transcripts/` | Raw transcript landing lanes (Plaud / STT / Manual) |
 | `09. Legacy/` | Archived legacy content |
 | `_Gobi_Captures/` | Gobi Desktop captures |
 | `(root)` | Uncategorized loose files |
@@ -56,7 +56,7 @@ Output a table:
 06. Automation       {n} files
 06. GenAI Chats      {n} files
 07. App Sync         {n} files
-08. Unlisted         {n} files
+08. Transcripts      {n} files
 09. Legacy           {n} files
 _Gobi_Captures       {n} files
 (root, uncategorized){n} files
