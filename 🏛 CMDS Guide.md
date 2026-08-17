@@ -7,7 +7,7 @@ description: "Operational standards guide for the CMDS vault. Defines the 7 requ
 author:
   - "[[구요한]]"
 date created: 2025-09-15T23:39
-date modified: 2026-05-27
+date modified: 2026-08-17
 tags:
   - CMDS
   - system
@@ -25,9 +25,10 @@ optional-for:
 token-estimate: 4800
 links: []
 index: "[[🏛 CMDS Head Quarter]]"
-version: "2.4"
+version: "2.5"
 status: completed
 changelog:
+  - "2.5 (2026-08-17): Synced frontmatter from mothership v4.10.0 (Periodic Agent Notes) — date modified bumped. Starter body unchanged."
   - "2.4 (2026-05-27): Synced frontmatter from mothership v4.8.0 — date modified bumped + tags noise removed (index/NoteClass/operation/maps/example/service). Starter body unchanged."
   - "2.3 (2026-04-07): 필수 프로퍼티 7개로 확장 (description 추가, English required for LLMs)"
   - "2.2 (2026-04-01): precedence/memory-type/token-estimate 추가, tags 정리"
