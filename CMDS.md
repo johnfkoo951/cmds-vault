@@ -7,7 +7,7 @@ description: "Context and philosophy guide for all LLM assistants working with t
 author:
   - "[[구요한]]"
 date created: 2025-10-22T21:52
-date modified: 2026-05-27
+date modified: 2026-08-17
 tags:
   - CMDS
   - system
@@ -24,9 +24,10 @@ optional-for:
 token-estimate: 8500
 CMDS: "[[📚 601 Knowledge Management]]"
 index: "[[🏛 CMDS Head Quarter]]"
-version: "2.4"
+version: "2.5"
 status: completed
 changelog:
+  - "2.5 (2026-08-17): Synced frontmatter from mothership v4.10.0 (Periodic Agent Notes) — date modified bumped. Starter body unchanged."
   - "2.4 (2026-05-27): Synced frontmatter from mothership v4.8.0 — date modified bumped. Starter body unchanged."
   - "2.3 (2026-04-28): Starter vault 적응 — 운영자 프로필 placeholder 화, 개인 식별 정보 제거"
   - "2.2 (2026-04-07): 필수 프로퍼티 7개 반영 (description 추가, English required)"
