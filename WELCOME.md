@@ -109,7 +109,7 @@ Open this vault folder in Claude Code (`cd <vault-path> && claude`). Then paste 
 > EXCLUDE (these are system-file authorship — leave their author fields as `[[구요한]]`):
 > - vault root system files: CLAUDE.md, AGENTS.md, CMDS.md, 🏛 CMDS Guide.md, 🏛 CMDS Head Quarter.md, WELCOME.md, README.md
 > - `.claude/commands/`, `.claude/rules/`
-> - `90. Settings/94. Agent Settings/claude/commands/` (mirror)
+> - `90. Settings/94. Agent Settings/claude/` (canonical copy — `.claude/commands/` and `.claude/rules/` are symlinks to it)
 > - `90. Settings/91. Skills/` (cmds-onboarding, gobi-onboarding, gobi-cli, daily-book-update)
 > - `90. Settings/92. Prompts/`
 >
