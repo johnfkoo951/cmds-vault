@@ -7,7 +7,7 @@ description: "Technical guide for non-Claude AI coding agents (Gemini CLI, Codex
 author:
   - "[[구요한]]"
 date created: 2026-01-02T16:30
-date modified: 2026-08-17
+date modified: 2026-09-21
 tags:
   - CMDS
   - system
@@ -25,9 +25,10 @@ optional-for:
 token-estimate: 3200
 CMDS: "[[📚 501 Obsidian]]"
 index: "[[🏛 CMDS Head Quarter]]"
-version: "2.5"
+version: "2.6"
 status: completed
 changelog:
+  - "2.6 (2026-09-21): Synced frontmatter from mothership v4.12.0 (agent scope 분리 — project-scope vs user-scope symlink 계층) — date modified bumped. Starter body unchanged."
   - "2.5 (2026-08-17): Synced frontmatter from mothership v4.10.0 (Periodic Agent Notes) — date modified bumped. Starter body unchanged."
   - "2.4 (2026-05-27): Synced frontmatter from mothership v4.8.0 — date modified bumped. Starter body unchanged."
   - "2.3 (2026-04-23): description 필드 double-quote 강제 규칙 추가"
