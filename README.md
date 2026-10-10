@@ -1,5 +1,5 @@
 ---
-template-version: "1.2.2"
+template-version: "1.3.0"
 template-released: 2026-05-30
 template-source: https://github.com/johnfkoo951/cmds-vault
 template-author: "[[구요한]]"
@@ -9,7 +9,7 @@ template-author: "[[구요한]]"
 
 > Class-ready Obsidian vault running [CMDS conventions](https://system.cmdspace.work) with [Gobi Desktop](https://gobi.app) integration baked in. Clone, open in Obsidian, start writing.
 
-> **Template version**: `1.2.2` (released 2026-07-13). To check what version you're running: `cat VERSION` or read `template-version` in this README's frontmatter. Upstream changes are tracked in [`CHANGELOG.md`](./CHANGELOG.md). Authoritative version source: git tags on this repo.
+> **Template version**: `1.3.0` (released 2026-10-10). To check what version you're running: `cat VERSION` or read `template-version` in this README's frontmatter. Upstream changes are tracked in [`CHANGELOG.md`](./CHANGELOG.md). Authoritative version source: git tags on this repo.
 
 ## What this is
 
@@ -95,8 +95,8 @@ cmds-vault/
 ├── CLAUDE.md, AGENTS.md, CMDS.md, 🏛 CMDS Guide.md   # CMDS system files (load order: precedence 1-5)
 ├── 🏛 CMDS Head Quarter.md, DESIGN.md                 # Navigation hub (precedence 6) + visual language spec (precedence 9)
 ├── WELCOME.md                                         # First-read onboarding doc (vault use guide + author batch-replace)
-├── .claude/rules/                                    # 8 shared rules (frontmatter, wikilink, etc.)
-├── .claude/commands/                                 # 8 slash commands (connect/merge/develop/share/inbox/lint/query/status)
+├── .claude/rules/    → symlink                       # 7 shared rules (frontmatter, wikilink, etc.) — canonical in 90. Settings/94. Agent Settings/claude/rules/
+├── .claude/commands/ → symlink                       # 8 slash commands (connect/merge/develop/share/inbox/lint/query/status) — canonical in …/claude/commands/
 │
 ├── 00. Inbox/{01-09 subfolders}/                     # Capture
 ├── 10. CMDS Process/                                 # Connect → Merge → Develop → Share
@@ -113,7 +113,9 @@ cmds-vault/
 │   │   └── gobi-onboarding/                           # First-run setup walkthrough
 │   ├── 92. Prompts/
 │   │   └── Create Brain Homepage (CBH).md             # Build a custom Brain page on demand
-│   └── 94. Agent Settings/claude/{agents,commands,rules,skills}/   # cmds Agent Settings (symlink-ready)
+│   └── 94. Agent Settings/
+│       ├── claude/{agents,commands,rules,skills}/     # canonical agent settings (.claude/* link here)
+│       └── setup-agent-links.sh / .ps1                # recreate the .claude/ links (ZIP, Windows, new machine)
 │
 └── BRAIN.md, BRAIN.jpg, BRAIN_PROMPT.md              # Gobi Brain identity (sync target)
 ```
@@ -132,20 +134,27 @@ If you want any of these later, copy them from [ai4pkm-vault](https://github.com
 
 > Note: `gobi-onboarding` IS included (under `90. Settings/91. Skills/gobi-onboarding/`) but it's a **streamlined class version** of ai4pkm's, not a copy. Voice mode is optional, no BBF/BBG profile-extraction games, anchored to CMDS folder taxonomy and Connect→Merge→Develop→Share vocabulary.
 
-## Symlink the .claude/ folder (advanced, optional)
+## Agent settings: canonical folder + `.claude/` symlinks
 
-`cmds-system-files/rules/directory-structure.md` recommends keeping the source-of-truth `.claude/` content under `90. Settings/94. Agent Settings/claude/` so it syncs through Obsidian Sync, then symlinking from the hidden `.claude/` to the visible folder. This vault ships the **flat** layout (`rules/` directly under `.claude/`) so cloning works zero-setup. If you want the cmds-recommended layout:
+Since v1.3.0 the agent settings live in a normal, visible folder — `90. Settings/94. Agent Settings/claude/{agents,commands,rules,skills}/` — and `.claude/agents`, `.claude/commands`, `.claude/rules`, `.claude/skills` are **relative symlinks** to it (stored in git as symlinks, mode 120000).
+
+**Why.** Obsidian Sync never syncs dot-folders except `.obsidian`. Syncing dot-folders with another tool is risky: `.git` gets corrupted when two machines write to it, secrets in `settings.local.json` / `sessions/` spread to other machines, machine-specific hook paths run on the wrong machine, symlinks get copied as real folders and drift apart, and caches cause churn and JSON merge conflicts. So:
+
+1. Shareable agent config lives in the normal folder and travels through Obsidian Sync or git.
+2. Each machine recreates the `.claude/` symlinks once.
+3. Machine-local settings (`settings.json`, `settings.local.json`, `sessions/`) stay real files in `.claude/` and are never synced.
+4. `.git` moves only through git. If you ever use rsync-like tools, exclude `.git .claude .codex .agents .smart-env .trash node_modules`.
+
+**Setup.** `git clone` on macOS/Linux restores the links as-is. If you downloaded the ZIP, cloned on Windows, or copied the vault through Obsidian Sync, run once from the vault root:
 
 ```bash
-cd cmds-vault/.claude
-mv rules rules_backup
-ln -s "../90. Settings/94. Agent Settings/claude/rules" rules
-# Move the actual rule files
-mv rules_backup/* "../90. Settings/94. Agent Settings/claude/rules/"
-rmdir rules_backup
+bash "90. Settings/94. Agent Settings/setup-agent-links.sh"          # create / repair links
+bash "90. Settings/94. Agent Settings/setup-agent-links.sh" --check  # verify only
 ```
 
-Repeat for `agents`, `commands`, `skills` if you populate them.
+- **Windows**: `powershell -ExecutionPolicy Bypass -File "90. Settings\94. Agent Settings\setup-agent-links.ps1"`. Symlinks need Developer Mode (Settings → System → For developers) or an elevated shell; without them the script falls back to directory junctions. Cloning with `git clone -c core.symlinks=true ...` keeps the links.
+- **Obsidian Sync across machines**: turn on **"Sync other file types"** if you add `.sh` hooks, and re-run `chmod +x` (Sync drops the executable bit).
+- **Upgrading from v1.2.x**: the same script moves the files from your old `.claude/rules/` and `.claude/commands/` into the canonical folder and creates the links. Folders that differ from the canonical copy are kept as `*_backup-<timestamp>` for you to merge.
 
 ## Credits
 

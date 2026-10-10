@@ -7,7 +7,7 @@ description: "Version history for the cmds-vault public starter kit. Tracks rele
 author:
   - "[[구요한]]"
 date created: 2026-04-28
-date modified: 2026-07-03
+date modified: 2026-10-10
 tags:
   - CMDS
   - changelog
@@ -19,6 +19,25 @@ tags:
 All notable changes to the cmds-vault starter kit are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/).
+
+## [1.3.0] — 2026-10-10
+
+Minor release — agent settings move to a canonical visible folder; `.claude/` becomes symlinks. Same pattern now runs in the author's main vault and LLM Wiki satellite.
+
+### Changed
+- **`.claude/rules/` (7 files) moved to `90. Settings/94. Agent Settings/claude/rules/`**, and the duplicate `.claude/commands/` copies (identical to the canonical ones) were removed. `.claude/agents`, `.claude/commands`, `.claude/rules`, `.claude/skills` are now relative symlinks to `90. Settings/94. Agent Settings/claude/…` (git mode 120000). File contents are unchanged except `directory-structure.md`.
+- **`directory-structure.md`** — new "점폴더 동기화 정책" section (why dot-folders are not synced, the 5 rules) and relative-symlink setup instead of absolute `<vault-path>` links.
+- **README** — "Symlink the .claude/ folder (advanced, optional)" replaced by "Agent settings: canonical folder + `.claude/` symlinks" (why, setup, Windows, upgrade). WELCOME's onboarding exclude list now names the canonical folder.
+
+### Added
+- **`90. Settings/94. Agent Settings/setup-agent-links.sh`** — creates/repairs the links, moves files from an old `.claude/` layout into empty canonical folders, backs up differing folders as `*_backup-<timestamp>`, `--check` verify mode.
+- **`setup-agent-links.ps1`** — Windows version; falls back to directory junctions when symlink rights (Developer Mode / admin) are missing. Not yet run on a Windows machine — please report issues.
+
+### Why
+Obsidian Sync never syncs dot-folders except `.obsidian`. Live-syncing them another way risks `.git` corruption, secrets from `settings.local.json`/`sessions/` spreading, machine-specific hook paths executing elsewhere, symlinks being replicated as real folders and drifting, and cache churn / JSON merge conflicts. Shareable config lives in a normal synced folder; each machine recreates the links once; machine-local settings never sync.
+
+### Upgrade
+Pull or unzip the new version, then run `bash "90. Settings/94. Agent Settings/setup-agent-links.sh"` once.
 
 ## [1.2.2] — 2026-07-13
 
