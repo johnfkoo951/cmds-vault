@@ -8,7 +8,7 @@ description: "Visual language specification for all CMDSPACE artifacts. Defines 
 author:
   - "[[구요한]]"
 date created: 2026-05-22T18:47
-date modified: 2026-08-17
+date modified: 2026-10-31
 tags:
   - CMDS
   - system
@@ -31,9 +31,11 @@ optional-for:
 token-estimate: 4200
 CMDS: "[[📚 731 Digital Art and Design]]"
 index: "[[🏛 CMDS Head Quarter]]"
-version: "1.2"
+version: "1.4"
 status: completed
 changelog:
+  - "1.4 (2026-10-31): Synced frontmatter from mothership v4.13.0–v4.16.0 (점폴더 동기화 정책·컨텍스트 다이어트 / Pele 다이어그램 시스템 / 학술 인용 규칙·내보내기 산출물 볼트 밖 / Guide 태그 노이즈 정리 / 2026-10-30 전수 감사 4회차 픽스) — date modified bumped. Starter body unchanged."
+  - "1.3 (2026-09-21): Synced frontmatter from mothership v4.12.0 (agent scope 분리 — project-scope vs user-scope symlink 계층) — date modified bumped. Starter body unchanged."
   - "1.2 (2026-08-17): Synced frontmatter from mothership v4.10.0 (Periodic Agent Notes) — date modified bumped. Starter body unchanged."
   - "1.0 (2026-05-22): Initial version. 9th system file added to mothership. Sources — getdesign.md pattern (2026-04-23 capture), v4.3 design standards (cmdspace-web-builder skill), Anti-AI-Slop guidelines (Claude Design system prompt captured 2026-05-04), 87-skill catalog mapped to visual surfaces. Triggered by /query — CMDSPACE 버전의 design.md 만들어줘 (2026-05-22)."
   - "1.1 (2026-05-30): Went public as 6th deployed file (v4.8.0); header de-staled; §9 follow-ups resolved; counts hedged."
