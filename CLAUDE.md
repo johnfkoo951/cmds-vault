@@ -7,7 +7,7 @@ description: "Claude Code specific technical implementation guide for the CMDS s
 author:
   - "[[구요한]]"
 date created: 2025-09-27T17:53
-date modified: 2026-09-21
+date modified: 2026-10-31
 tags:
   - CMDS
   - system
@@ -26,9 +26,10 @@ optional-for:
 token-estimate: 5800
 CMDS: "[[📚 501 Obsidian]]"
 index: "[[🏛 CMDS Head Quarter]]"
-version: "3.6"
+version: "3.7"
 status: completed
 changelog:
+  - "3.7 (2026-10-31): Synced frontmatter from mothership v4.13.0–v4.16.0 (점폴더 동기화 정책·컨텍스트 다이어트 / Pele 다이어그램 시스템 / 학술 인용 규칙·내보내기 산출물 볼트 밖 / Guide 태그 노이즈 정리 / 2026-10-30 전수 감사 4회차 픽스) — date modified bumped. Starter body unchanged."
   - "3.6 (2026-09-21): Synced frontmatter from mothership v4.12.0 (agent scope 분리 — project-scope vs user-scope symlink 계층) — date modified bumped. Starter body unchanged."
   - "3.5 (2026-08-17): Synced frontmatter from mothership v4.10.0 (Periodic Agent Notes) — date modified bumped. Starter body unchanged."
   - "3.4 (2026-05-27): Synced frontmatter from mothership v4.8.0 — date modified bumped. Starter body unchanged."
